@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'presentation/screens/note_screen.dart';
 import 'presentation/screens/sign_up_screen.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SignUpScreen(),
+      home: const NoteScreen(),
     );
   }
 }

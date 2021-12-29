@@ -19,7 +19,7 @@ class SignUpScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 130),
+            const SizedBox(height: 100),
             const Text(
               'Sign up',
               style: TextStyle(
@@ -37,7 +37,7 @@ class SignUpScreen extends StatelessWidget {
               onPressed: () {},
               text: 'sign up',
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
             Row(
               children: const [
                 Expanded(
@@ -70,6 +70,23 @@ class SignUpScreen extends StatelessWidget {
               onPressed: () {},
               iconData: FontAwesomeIcons.facebook,
               text: 'sign up with facebook',
+            ),
+            const SizedBox(height: 30.0),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0XFFFF6F06).withOpacity(0.8),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Skip',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
             const Spacer(),
             Center(
