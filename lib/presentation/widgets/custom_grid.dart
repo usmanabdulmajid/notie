@@ -4,9 +4,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class CustomGrid extends StatelessWidget {
   final String title;
   final String body;
-  final int index;
+  final int count;
   const CustomGrid(
-      {Key? key, required this.title, required this.body, required this.index})
+      {Key? key, required this.title, required this.body, required this.count})
       : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class CustomGrid extends StatelessWidget {
     return StaggeredGridView.countBuilder(
       padding: EdgeInsets.zero,
       crossAxisCount: 4,
-      itemCount: 23,
+      itemCount: count,
       itemBuilder: (BuildContext context, int index) => Container(
         decoration: const BoxDecoration(
           color: Colors.green,
@@ -28,7 +28,7 @@ class CustomGrid extends StatelessWidget {
           children: [
             Text(
               'note ${index + 1}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -36,7 +36,7 @@ class CustomGrid extends StatelessWidget {
             const SizedBox(height: 5),
             Expanded(
               child: Text(
-                '''nm,dnm,n,mnjfmnfmvfnvnmfvnmfnmfvn,mfnv,mnf,mn,mfnvfmbvb,nf,bvnmbfvnmbv,mfjbvjbnkjrhntkjgrbhjnrfvjnjhnkjnvkjdn,jbdcd,hjbad,djbnckjn,kjhfkjhckjehfckjhrkfjhr''',
+                '''$body''',
                 overflow: TextOverflow.ellipsis,
                 maxLines: index.isOdd ? 12 : 6,
               ),

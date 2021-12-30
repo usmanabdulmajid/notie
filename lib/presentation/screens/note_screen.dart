@@ -3,7 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class NoteScreen extends StatelessWidget {
-  const NoteScreen({Key? key}) : super(key: key);
+  NoteScreen({Key? key}) : super(key: key);
+
+  List<String> xl = [
+    'hejhejhjjjnjkll;;;;;nnnnnnnnnnnnnnnnnnnnn',
+    'dcbnfvndvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvashvfhjevfhhjd ncvvvvvvvvnxxx heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeev',
+    'csdhhvc mhejjvegdcssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class NoteScreen extends StatelessWidget {
               child: StaggeredGridView.countBuilder(
                 padding: EdgeInsets.zero,
                 crossAxisCount: 4,
-                itemCount: 23,
+                itemCount: xl.length,
                 itemBuilder: (BuildContext context, int index) => Container(
                   decoration: const BoxDecoration(
                     color: Colors.green,
@@ -74,7 +80,7 @@ class NoteScreen extends StatelessWidget {
                       const SizedBox(height: 5),
                       Expanded(
                         child: Text(
-                          '''nm,dnm,n,mnjfmnfmvfnvnmfvnmfnmfvn,mfnv,mnf,mn,mfnvfmbvb,nf,bvnmbfvnmbv,mfjbvjbnkjrhntkjgrbhjnrfvjnjhnkjnvkjdn,jbdcd,hjbad,djbnckjn,kjhfkjhckjehfckjhrkfjhr''',
+                          '${xl[index]}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: index.isOdd ? 12 : 6,
                         ),
@@ -91,6 +97,10 @@ class NoteScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.create),
       ),
     );
   }

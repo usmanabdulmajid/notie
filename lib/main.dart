@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'presentation/screens/compose_note_screen.dart';
 import 'presentation/screens/note_screen.dart';
 import 'presentation/screens/sign_up_screen.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const NoteScreen(),
+      home: ComposeNoteScreen(),
     );
   }
 }
