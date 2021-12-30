@@ -1,0 +1,64 @@
+import 'dart:io';
+
+import 'package:notie/domain/enitities/note.dart';
+import 'package:notie/infrastructure/datasource/ilocal_datasource.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+class SqlLocalDatasource implements ILocalDatasource {
+  Future<Database> _initializeDb() async {
+    String path = join(await getDatabasesPath(), 'note_db');
+    var noteDb = openDatabase(path, version: 1, onCreate: (db, version) {
+      db.execute(
+          'CREATE TABLE note(id INTEGER PRIMARY KEY, title TEXT, body TEXT, color TEXT, noteType TEXT date TEXT)');
+    });
+    return noteDb;
+  }
+
+  late final database = _initializeDb();
+
+  @override
+  Future<bool> deleteNotes(List<String> ids) async {
+    final db = await database;
+    var result = await db.delete('note', where: '$ids = ?', whereArgs: ids);
+    return result != 0;
+  }
+
+  @override
+  Future<List<Note>> fetchNotes() async {
+    final db = await database;
+    List<Note> notes = [];
+    List<Map<String, dynamic>> result = await db.query('note');
+    notes = result.map((e) {
+      return Note.fromMap(e);
+    }).toList();
+    return notes;
+  }
+
+  @override
+  Future<bool> saveNote(Note note) async {
+    final db = await database;
+    var result = await db.insert('note', note.toMap());
+    return result != 0;
+  }
+
+  @override
+  Future<List<Note>> searchNotes(String title) async {
+    final db = await database;
+    List<Note> notes = [];
+    List<Map<String, dynamic>> result =
+        await db.query('note', where: '$title = ?', whereArgs: [title]);
+    notes = result.map((e) {
+      return Note.fromMap(e);
+    }).toList();
+    return notes;
+  }
+
+  @override
+  Future<bool> updateNote(Note note) async {
+    final db = await database;
+    var result = await db.update('note', note.toMap(),
+        where: '${note.id} = ?', whereArgs: [note.id]);
+    return result != 0;
+  }
+}
