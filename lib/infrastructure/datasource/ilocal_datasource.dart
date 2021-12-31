@@ -1,4 +1,4 @@
-import 'package:notie/domain/enitities/note.dart';
+import 'package:notie/domain/models/note.dart';
 
 abstract class ILocalDatasource {
   Future<bool> saveNote(Note note);

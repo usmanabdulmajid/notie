@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notie/presentation/screens/create_account_screen.dart';
 
 import 'presentation/screens/compose_note_screen.dart';
 import 'presentation/screens/note_screen.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ReadNoteScreen(),
+      home: CreateAccountScreen(),
     );
   }
 }
