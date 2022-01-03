@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "518259574950",
+    "project_id": "notie-2d41b",
+    "storage_bucket": "notie-2d41b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518259574950:android:1ab429731a22c91a3d0c67",
+        "android_client_info": {
+          "package_name": "com.example.notie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518259574950-cd5beos49jsc5t91e84vkbvqbl3fp4n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8xgBR-_VTGX0HYHPzg2GBgHScvAsAmUI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518259574950-cd5beos49jsc5t91e84vkbvqbl3fp4n1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
