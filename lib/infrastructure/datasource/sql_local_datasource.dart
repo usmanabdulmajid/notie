@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:notie/domain/enitities/note.dart';
+import 'package:notie/domain/models/note.dart';
 import 'package:notie/infrastructure/datasource/ilocal_datasource.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';

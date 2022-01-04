@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notie/application/cubit/notecubit_cubit.dart';
+import 'package:notie/infrastructure/datasource/sql_local_datasource.dart';
+import 'package:notie/infrastructure/repositories/note_repository.dart';
 
 import 'presentation/screens/compose_note_screen.dart';
 import 'presentation/screens/note_screen.dart';
@@ -20,7 +24,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NoteScreen(),
+      home: BlocProvider<NotecubitCubit>(
+        create: (context) =>
+            NotecubitCubit(NoteRepository(SqlLocalDatasource())),
+        child: NoteScreen(),
+      ),
     );
   }
 }
