@@ -26,6 +26,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   Future<void> deleteNote(List<String> ids) async {
     final result = await noteRepository.delete(ids);
+    emit(DeleteNote(result));
     if (result) {
       await loadNotes();
     }
@@ -33,7 +34,9 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   Future<void> searchNotes(String title) async {
     final searchedNotes = await noteRepository.search(title);
-    emit(LoadNote(searchedNotes));
+    if (searchedNotes.isNotEmpty) {
+      emit(LoadNote(searchedNotes));
+    } else {}
   }
 
   Future<void> updateNote(Note note) async {

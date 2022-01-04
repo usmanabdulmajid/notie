@@ -34,6 +34,10 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_staggered_grid_view: ^0.4.1
   font_awesome_flutter: ^9.2.0
+<<<<<<< HEAD
+=======
+  get_it: ^7.2.0
+>>>>>>> d4e322e2755cfd25b9bc09727eccc53cc597ce6c
   path: ^1.8.0
   path_provider: ^2.0.8
   sqflite: ^2.0.1
