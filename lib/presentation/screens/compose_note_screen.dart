@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
-import 'package:notie/utils/validation_mixin.dart';
+import 'package:notie/utils/notehelper_mixin.dart';
 import 'package:provider/provider.dart';
 
 class ComposeNoteScreen extends StatefulWidget {
@@ -54,8 +54,8 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                   TopBarButton(
                     onPressed: () {
                       if (nonEmptyNote(_titleCtr.text, _bodyCtr.text)) {
-                        //context.read<NotecubitCubit>().saveNote(
-                        //    _titleCtr.text, _bodyCtr.text, noteColor());
+                        context.read<NotecubitCubit>().saveNote(
+                            _titleCtr.text, _bodyCtr.text, noteColor());
                       }
                     },
                     child: const Text(

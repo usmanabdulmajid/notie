@@ -29,6 +29,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     final result = await noteRepository.add(note);
     emit(SaveNote(result));
     if (result) {
+      print('bankai');
       await loadNotes();
     }
   }
