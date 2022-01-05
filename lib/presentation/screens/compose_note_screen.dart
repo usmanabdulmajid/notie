@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
+import 'package:notie/utils/validation_mixin.dart';
+import 'package:provider/provider.dart';
 
-class ComposeNoteScreen extends StatelessWidget {
+class ComposeNoteScreen extends StatefulWidget {
   const ComposeNoteScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ComposeNoteScreen> createState() => _ComposeNoteScreenState();
+}
+
+class _ComposeNoteScreenState extends State<ComposeNoteScreen>
+    with HelperMixin {
+  late TextEditingController _titleCtr;
+  late TextEditingController _bodyCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleCtr = TextEditingController();
+    _bodyCtr = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _titleCtr.dispose();
+    _bodyCtr.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +52,12 @@ class ComposeNoteScreen extends StatelessWidget {
                     ),
                   ),
                   TopBarButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (nonEmptyNote(_titleCtr.text, _bodyCtr.text)) {
+                        //context.read<NotecubitCubit>().saveNote(
+                        //    _titleCtr.text, _bodyCtr.text, noteColor());
+                      }
+                    },
                     child: const Text(
                       'SAVE',
                       style: TextStyle(color: Colors.white),
@@ -35,17 +66,19 @@ class ComposeNoteScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 50),
-              const TextField(
-                style: TextStyle(fontSize: 30, color: Colors.white),
-                decoration: InputDecoration.collapsed(
+              TextField(
+                controller: _titleCtr,
+                style: const TextStyle(fontSize: 30, color: Colors.white),
+                decoration: const InputDecoration.collapsed(
                     hintText: 'Title',
                     hintStyle: TextStyle(color: Colors.white60, fontSize: 30)),
               ),
               const SizedBox(height: 50),
-              const TextField(
-                style: TextStyle(color: Colors.white),
+              TextField(
+                controller: _bodyCtr,
+                style: const TextStyle(color: Colors.white),
                 maxLines: null,
-                decoration: InputDecoration.collapsed(
+                decoration: const InputDecoration.collapsed(
                   hintText: 'Type something....',
                   hintStyle: TextStyle(color: Colors.white60),
                 ),

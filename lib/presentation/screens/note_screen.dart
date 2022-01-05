@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notie/application/cubit/notecubit_cubit.dart';
+import 'package:notie/presentation/screens/compose_note_screen.dart';
 
 class NoteScreen extends StatelessWidget {
   NoteScreen({Key? key}) : super(key: key);
@@ -54,53 +57,63 @@ class NoteScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 40),
-            Expanded(
-              child: StaggeredGridView.countBuilder(
-                padding: EdgeInsets.zero,
-                crossAxisCount: 4,
-                itemCount: xl.length,
-                itemBuilder: (BuildContext context, int index) => Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'note ${index + 1}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+            BlocBuilder<NotecubitCubit, NotecubitState>(
+              builder: (context, state) {
+                return Expanded(
+                  child: StaggeredGridView.countBuilder(
+                    padding: EdgeInsets.zero,
+                    crossAxisCount: 4,
+                    itemCount: xl.length,
+                    itemBuilder: (BuildContext context, int index) => Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4),
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Expanded(
-                        child: Text(
-                          '${xl[index]}',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: index.isOdd ? 12 : 6,
-                        ),
-                      )
-                    ],
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'note ${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Expanded(
+                            child: Text(
+                              '${xl[index]}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: index.isOdd ? 12 : 6,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                    staggeredTileBuilder: (int index) {
+                      return StaggeredTile.count(2, index.isOdd ? 2 : 1.5);
+                    },
+                    mainAxisSpacing: 6.0,
+                    crossAxisSpacing: 10.0,
                   ),
-                ),
-                staggeredTileBuilder: (int index) {
-                  return StaggeredTile.count(2, index.isOdd ? 2 : 1.5);
-                },
-                mainAxisSpacing: 6.0,
-                crossAxisSpacing: 10.0,
-              ),
+                );
+              },
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.create),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return const ComposeNoteScreen();
+          }));
+        },
+        child: const Icon(Icons.create),
       ),
     );
   }

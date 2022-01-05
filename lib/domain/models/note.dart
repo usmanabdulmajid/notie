@@ -41,8 +41,13 @@ class Note {
     );
   }
 
-  Note copywith(String? id, String? title, String? body, Color? color,
-      NoteType? noteType, DateTime? date) {
+  Note copywith(
+      {String? id,
+      String? title,
+      String? body,
+      Color? color,
+      NoteType? noteType,
+      DateTime? date}) {
     return Note(
       id: id ?? this.id,
       title: title ?? this.title,
