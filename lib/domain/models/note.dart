@@ -6,17 +6,17 @@ class Note {
   int? id;
   String? title;
   String? body;
-  int? color;
-  NoteType? noteType;
-  String? date;
+  int color;
+  NoteType noteType;
+  String date;
 
   Note({
     this.id,
     this.title,
     this.body,
-    this.color,
-    this.noteType,
-    this.date,
+    required this.color,
+    required this.noteType,
+    required this.date,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,12 +25,13 @@ class Note {
       'title': title,
       'body': body,
       'color': color,
-      'noteType': noteType!.name,
+      'noteType': noteType.name,
       'date': date,
     };
   }
 
   factory Note.fromMap(Map<String, dynamic> map) {
+    print('shikai ${map['color']}');
     return Note(
       id: map['id'],
       title: map['title'],
