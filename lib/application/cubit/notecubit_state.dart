@@ -3,7 +3,7 @@ part of 'notecubit_cubit.dart';
 @immutable
 abstract class NotecubitState extends Equatable {}
 
-class NotecubitInitial extends NotecubitState {
+class NoteLoading extends NotecubitState {
   @override
   List<Object?> get props => [];
 }

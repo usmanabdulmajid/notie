@@ -11,7 +11,7 @@ part 'notecubit_state.dart';
 class NotecubitCubit extends Cubit<NotecubitState> {
   final INoteRepository noteRepository;
 
-  NotecubitCubit(this.noteRepository) : super(NotecubitInitial());
+  NotecubitCubit(this.noteRepository) : super(NoteLoading());
 
   Future<void> loadNotes() async {
     final notes = await noteRepository.load();

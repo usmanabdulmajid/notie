@@ -4,15 +4,27 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
+import 'package:notie/utils/app_color.dart';
 
-class NoteScreen extends StatelessWidget {
+class NoteScreen extends StatefulWidget {
   NoteScreen({Key? key}) : super(key: key);
 
+  @override
+  State<NoteScreen> createState() => _NoteScreenState();
+}
+
+class _NoteScreenState extends State<NoteScreen> {
   List<String> xl = [
     'hejhejhjjjnjkll;;;;;nnnnnnnnnnnnnnnnnnnnn',
     'dcbnfvndvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvashvfhjevfhhjd ncvvvvvvvvnxxx heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeev',
     'csdhhvc mhejjvegdcssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<NotecubitCubit>().loadNotes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,38 +71,46 @@ class NoteScreen extends StatelessWidget {
             const SizedBox(height: 40),
             BlocBuilder<NotecubitCubit, NotecubitState>(
               builder: (context, state) {
+                if (state is NoteLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                LoadNote note = state as LoadNote;
                 return Expanded(
                   child: StaggeredGridView.countBuilder(
                     padding: EdgeInsets.zero,
                     crossAxisCount: 4,
-                    itemCount: xl.length,
+                    itemCount: note.notes.length,
                     itemBuilder: (BuildContext context, int index) => Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(4),
-                        ),
+                      width: MediaQuery.of(context).size.width * .45,
+                      height: 300,
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        color: Color(note.notes[index].color),
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                      padding: const EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'note ${index + 1}',
+                            note.notes[index].title!,
                             style: const TextStyle(
-                              color: Colors.white,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: 2.0,
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          Expanded(
-                            child: Text(
-                              '${xl[index]}',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: index.isOdd ? 12 : 6,
-                            ),
+                          Text(
+                            note.notes[index].body!,
                           ),
-                          const SizedBox(height: 10),
+                          Align(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(Icons.upload),
+                                Text(note.notes[index].date),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
