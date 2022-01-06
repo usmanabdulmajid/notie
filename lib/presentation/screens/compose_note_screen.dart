@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/utils/notehelper_mixin.dart';
@@ -32,6 +33,7 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<NotecubitCubit>(context);
     return Scaffold(
       backgroundColor: const Color(0XFF01284E),
       body: Padding(
@@ -54,7 +56,7 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                   TopBarButton(
                     onPressed: () {
                       if (nonEmptyNote(_titleCtr.text, _bodyCtr.text)) {
-                        context.read<NotecubitCubit>().saveNote(
+                        cubit.saveNote(
                             _titleCtr.text, _bodyCtr.text, noteColor());
                       }
                     },

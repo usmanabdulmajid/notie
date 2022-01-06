@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:notie/utils/enums.dart';
 
 class Note {
-  String? id;
+  int? id;
   String? title;
   String? body;
-  Color? color;
+  int? color;
   NoteType? noteType;
-  DateTime? date;
+  String? date;
 
   Note({
     this.id,
@@ -42,12 +42,12 @@ class Note {
   }
 
   Note copywith(
-      {String? id,
+      {int? id,
       String? title,
       String? body,
-      Color? color,
+      int? color,
       NoteType? noteType,
-      DateTime? date}) {
+      String? date}) {
     return Note(
       id: id ?? this.id,
       title: title ?? this.title,

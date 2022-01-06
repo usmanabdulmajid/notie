@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:notie/domain/models/note.dart';
 import 'package:notie/infrastructure/repositories/inote_repository.dart';
 import 'package:notie/utils/enums.dart';
@@ -18,13 +19,13 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   }
 
   Future<void> saveNote(String title, String body, Color color) async {
-    DateTime date = DateTime.now();
+    final date = DateFormat.yMMMd().format(DateTime.now());
     Note note = Note(
       title: title,
       body: body,
       date: date,
       noteType: NoteType.text,
-      color: color,
+      color: color.value,
     );
     final result = await noteRepository.add(note);
     emit(SaveNote(result));
@@ -50,7 +51,8 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   }
 
   Future<void> updateNote(Note note) async {
-    note.copywith(date: DateTime.now());
+    final date = DateFormat.yMMMd().format(DateTime.now());
+    note.copywith(date: date);
     final result = await noteRepository.update(note);
     if (result) {
       await loadNotes();
