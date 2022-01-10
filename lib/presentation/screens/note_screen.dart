@@ -7,7 +7,7 @@ import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/utils/app_color.dart';
 
 class NoteScreen extends StatefulWidget {
-  NoteScreen({Key? key}) : super(key: key);
+  const NoteScreen({Key? key}) : super(key: key);
 
   @override
   State<NoteScreen> createState() => _NoteScreenState();

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.notie">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
    <application
         android:label="notie"
         android:icon="@mipmap/ic_launcher">
