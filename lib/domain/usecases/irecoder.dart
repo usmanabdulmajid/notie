@@ -1,8 +1,9 @@
 abstract class IRecoder {
-  void init();
-  void dispose();
-  Stream<String> record();
+  Future<void> init();
+  Future<void> dispose();
+  Future record();
   Future pause();
   Future<String?> stop();
   Future resume();
+  Stream<String> get timer;
 }

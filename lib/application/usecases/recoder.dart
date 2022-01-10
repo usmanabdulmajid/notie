@@ -6,18 +6,18 @@ import 'package:notie/domain/usecases/irecoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Recoder extends IRecoder {
-  //final FlutterSound flutterSound;
   final FlutterSoundRecorder flutterSoundRecorder;
   Recoder(this.flutterSoundRecorder);
-  late final StreamController<String> timer;
+  late final StreamController<String> _timer;
+  late final StreamSubscription? subscription;
 
   static const String _filepath = 'noterecords';
   @override
-  void init() async {
+  Future<void> init() async {
     await flutterSoundRecorder.openAudioSession();
     await flutterSoundRecorder
         .setSubscriptionDuration(const Duration(milliseconds: 10));
-    timer = StreamController<String>.broadcast();
+    _timer = StreamController<String>.broadcast();
   }
 
   @override
@@ -28,20 +28,22 @@ class Recoder extends IRecoder {
   }
 
   @override
-  Stream<String> record() async* {
+  Future record() async {
     PermissionStatus status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('Microphone permission not granted');
     }
     await flutterSoundRecorder.startRecorder(toFile: _filepath);
-    flutterSoundRecorder.onProgress?.listen((event) {
+    subscription = flutterSoundRecorder.onProgress?.listen((event) {
       final date =
           DateTime.fromMillisecondsSinceEpoch(event.duration.inMilliseconds);
-      final time = DateFormat('mm:ss:SS').format(date);
-      timer.sink.add(time);
+      final time = DateFormat('mm:ss:SS', 'en_GB').format(date);
+      _timer.sink.add(time);
     });
-    yield* timer.stream;
   }
+
+  @override
+  Stream<String> get timer => _timer.stream;
 
   @override
   Future<String?> stop() async {
@@ -56,8 +58,9 @@ class Recoder extends IRecoder {
   }
 
   @override
-  void dispose() async {
+  Future<void> dispose() async {
     await flutterSoundRecorder.closeAudioSession();
-    await timer.close();
+    await subscription?.cancel();
+    await _timer.close();
   }
 }
