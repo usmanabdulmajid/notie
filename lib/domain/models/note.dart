@@ -6,6 +6,7 @@ class Note {
   int? id;
   String? title;
   String? body;
+  String? audioPath;
   int color;
   NoteType noteType;
   String date;
@@ -14,6 +15,7 @@ class Note {
     this.id,
     this.title,
     this.body,
+    this.audioPath,
     required this.color,
     required this.noteType,
     required this.date,
@@ -24,6 +26,7 @@ class Note {
       'id': id,
       'title': title,
       'body': body,
+      'audioPath': audioPath,
       'color': color,
       'noteType': noteType.name,
       'date': date,
@@ -36,6 +39,7 @@ class Note {
       id: map['id'],
       title: map['title'],
       body: map['body'],
+      audioPath: map['audioPath'],
       color: map['color'],
       noteType: ParseNoteType.fromString(map['noteType']),
       date: map['date'],
@@ -46,6 +50,7 @@ class Note {
       {int? id,
       String? title,
       String? body,
+      String? audioPath,
       int? color,
       NoteType? noteType,
       String? date}) {
@@ -53,6 +58,7 @@ class Note {
       id: id ?? this.id,
       title: title ?? this.title,
       body: body ?? this.body,
+      audioPath: audioPath ?? this.audioPath,
       color: color ?? this.color,
       noteType: noteType ?? this.noteType,
       date: date ?? this.date,

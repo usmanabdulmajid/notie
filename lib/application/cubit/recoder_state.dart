@@ -10,7 +10,7 @@ abstract class RecoderState extends Equatable {
 class RecoderInitial extends RecoderState {}
 
 class Recording extends RecoderState {
-  final Stream<String> timer;
+  final String timer;
   const Recording(this.timer);
 
   @override

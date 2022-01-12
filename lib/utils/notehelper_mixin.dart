@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:notie/domain/models/note.dart';
+import 'package:notie/utils/enums.dart';
 
 mixin HelperMixin {
-  bool nonEmptyNote(String title, String body) {
-    return title.isNotEmpty && body.isNotEmpty;
+  bool nonEmptyNote(String title, String body, String audioPath) {
+    return title.isNotEmpty && body.isNotEmpty && audioPath.isNotEmpty;
   }
 
   Color noteColor() {
@@ -17,5 +20,24 @@ mixin HelperMixin {
     ];
     int random = Random().nextInt(colors.length);
     return colors[random];
+  }
+
+  Note setNote({
+    required NoteType noteType,
+    String? title,
+    String? body,
+    String? audioPath,
+  }) {
+    final date = DateFormat.yMMMd().format(DateTime.now());
+    Note note = Note(color: noteColor().value, noteType: noteType, date: date);
+    if (noteType == NoteType.text) {
+      note.title = title;
+      note.body = body;
+    } else {
+      note.title ??= 'voice note';
+      note.audioPath = audioPath;
+    }
+
+    return note;
   }
 }

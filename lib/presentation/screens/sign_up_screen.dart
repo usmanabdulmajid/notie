@@ -3,6 +3,7 @@ import 'package:notie/presentation/widgets/alt_button.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
 import 'package:notie/presentation/widgets/border_textfield.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notie/utils/app_color.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0XFF01284E),
+      backgroundColor: AppColor.mainColor,
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
@@ -23,7 +24,7 @@ class SignUpScreen extends StatelessWidget {
             const Text(
               'Sign up',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColor.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
@@ -42,19 +43,19 @@ class SignUpScreen extends StatelessWidget {
               children: const [
                 Expanded(
                     child: Divider(
-                  color: Colors.white,
+                  color: AppColor.white,
                   thickness: 2.0,
                 )),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'OR',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColor.white),
                   ),
                 ),
                 Expanded(
                     child: Divider(
-                  color: Colors.white,
+                  color: AppColor.white,
                   thickness: 2.0,
                 )),
               ],
@@ -79,12 +80,12 @@ class SignUpScreen extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0XFFFF6F06).withOpacity(0.8),
+                  color: AppColor.oranage.withOpacity(0.8),
                 ),
                 alignment: Alignment.center,
                 child: const Text(
                   'Skip',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.white),
                 ),
               ),
             ),
@@ -95,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
                 child: const Text(
                   'Already have an account? Sign In',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColor.white,
                     decoration: TextDecoration.underline,
                   ),
                 ),

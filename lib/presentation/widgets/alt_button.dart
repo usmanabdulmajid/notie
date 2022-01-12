@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notie/utils/app_color.dart';
 
 class AltButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -19,19 +20,19 @@ class AltButton extends StatelessWidget {
         width: double.maxFinite,
         height: 45,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColor.white,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(iconData, color: const Color(0XFF01284E)),
+            Icon(iconData, color: AppColor.mainColor),
             const SizedBox(width: 10),
             Text(
               text,
               style: const TextStyle(
-                color: Color(0XFF01284E),
+                color: AppColor.mainColor,
                 fontWeight: FontWeight.bold,
               ),
             ),

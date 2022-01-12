@@ -29,7 +29,7 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF01284E),
+      backgroundColor: AppColor.mainColor,
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
@@ -44,11 +44,11 @@ class _NoteScreenState extends State<NoteScreen> {
                   onTap: () {},
                   child: const ImageIcon(
                     AssetImage('asset/images/menu_button.png'),
-                    color: Colors.white,
+                    color: AppColor.white,
                   ),
                 ),
                 const CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColor.white,
                 ),
               ],
             ),
@@ -57,7 +57,7 @@ class _NoteScreenState extends State<NoteScreen> {
               height: 40,
               padding: const EdgeInsets.only(left: 10.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColor.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const TextField(
@@ -95,7 +95,7 @@ class _NoteScreenState extends State<NoteScreen> {
                             note.notes[index].title!,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: AppColor.white,
                               height: 2.0,
                             ),
                           ),

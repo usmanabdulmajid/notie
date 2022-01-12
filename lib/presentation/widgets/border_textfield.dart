@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notie/utils/app_color.dart';
 
 class BorderTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -12,7 +13,7 @@ class BorderTextField extends StatelessWidget {
       height: 40,
       padding: const EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColor.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(

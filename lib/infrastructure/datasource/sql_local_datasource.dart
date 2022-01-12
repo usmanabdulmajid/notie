@@ -10,7 +10,7 @@ class SqlLocalDatasource implements ILocalDatasource {
     String path = join(await getDatabasesPath(), 'note_db');
     var noteDb = openDatabase(path, version: 1, onCreate: (db, version) {
       db.execute(
-          'CREATE TABLE note(id INTEGER PRIMARY KEY, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT)');
+          'CREATE TABLE note(id INTEGER PRIMARY KEY, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT, audioPath TEXT)');
     });
     return noteDb;
   }

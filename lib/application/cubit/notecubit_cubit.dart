@@ -18,16 +18,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     emit(LoadNote(notes));
   }
 
-  Future<void> saveNote(String title, String body, Color color) async {
-    final date = DateFormat.yMMMd().format(DateTime.now());
-    //print('ban ${color.value}');
-    Note note = Note(
-      title: title,
-      body: body,
-      date: date,
-      noteType: NoteType.text,
-      color: color.value,
-    );
+  Future<void> saveNote(Note note) async {
     final result = await noteRepository.add(note);
     emit(SaveNote(result));
     if (result) {

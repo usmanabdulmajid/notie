@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notie/utils/app_color.dart';
 
 class AuthenticationButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -17,14 +18,14 @@ class AuthenticationButton extends StatelessWidget {
         width: double.maxFinite,
         height: 45,
         decoration: BoxDecoration(
-          color: const Color(0XFFFF6F06),
+          color: AppColor.oranage,
           borderRadius: BorderRadius.circular(8),
         ),
         alignment: Alignment.center,
         child: Text(
           text,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppColor.white,
             fontWeight: FontWeight.bold,
           ),
         ),

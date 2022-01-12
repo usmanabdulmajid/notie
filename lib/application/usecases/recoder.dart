@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:notie/domain/usecases/irecoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -15,6 +16,7 @@ class Recoder extends IRecoder {
   @override
   Future<void> init() async {
     await flutterSoundRecorder.openAudioSession();
+
     await flutterSoundRecorder
         .setSubscriptionDuration(const Duration(milliseconds: 10));
     _timer = StreamController<String>.broadcast();
@@ -33,11 +35,14 @@ class Recoder extends IRecoder {
     if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('Microphone permission not granted');
     }
+    await initializeDateFormatting('en_GB');
     await flutterSoundRecorder.startRecorder(toFile: _filepath);
     subscription = flutterSoundRecorder.onProgress?.listen((event) {
+      print(event.duration.toString());
       final date =
           DateTime.fromMillisecondsSinceEpoch(event.duration.inMilliseconds);
       final time = DateFormat('mm:ss:SS', 'en_GB').format(date);
+
       _timer.sink.add(time);
     });
   }

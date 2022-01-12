@@ -7,6 +7,7 @@ class AppSnackBar {
       SnackBar(
         content: Text(text),
         backgroundColor: Colors.green,
+        duration: const Duration(milliseconds: 1000),
       ),
     );
   }
@@ -16,6 +17,7 @@ class AppSnackBar {
       SnackBar(
         content: Text(text),
         backgroundColor: Colors.red,
+        duration: const Duration(milliseconds: 1000),
       ),
     );
   }

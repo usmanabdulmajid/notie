@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:notie/presentation/widgets/alt_button.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
 import 'package:notie/presentation/widgets/border_textfield.dart';
+import 'package:notie/utils/app_color.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0XFF01284E),
+      backgroundColor: AppColor.mainColor,
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
@@ -23,7 +24,7 @@ class SignInScreen extends StatelessWidget {
             const Text(
               'Sign in',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColor.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
@@ -42,7 +43,7 @@ class SignInScreen extends StatelessWidget {
                 onPressed: () {},
                 child: const Text(
                   'Forgot Password',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.white),
                 ),
               ),
             ),
@@ -51,19 +52,19 @@ class SignInScreen extends StatelessWidget {
               children: const [
                 Expanded(
                     child: Divider(
-                  color: Colors.white,
+                  color: AppColor.white,
                   thickness: 2.0,
                 )),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'OR',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColor.white),
                   ),
                 ),
                 Expanded(
                     child: Divider(
-                  color: Colors.white,
+                  color: AppColor.white,
                   thickness: 2.0,
                 )),
               ],
@@ -87,7 +88,7 @@ class SignInScreen extends StatelessWidget {
                 child: const Text(
                   'Don\'t have an account? Sign Up',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColor.white,
                     decoration: TextDecoration.underline,
                   ),
                 ),

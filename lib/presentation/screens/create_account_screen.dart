@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notie/presentation/widgets/border_textfield.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
+import 'package:notie/utils/app_color.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -8,7 +9,7 @@ class CreateAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF01284E),
+      backgroundColor: AppColor.mainColor,
       body: Container(
         height: double.maxFinite,
         width: double.maxFinite,
@@ -20,7 +21,7 @@ class CreateAccountScreen extends StatelessWidget {
             const Text(
               'Create account',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColor.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
@@ -36,7 +37,7 @@ class CreateAccountScreen extends StatelessWidget {
                     bottom: 12,
                     right: -12,
                     child: IconButton(
-                      color: const Color(0XFF01284E),
+                      color: AppColor.mainColor,
                       onPressed: () {},
                       icon: const Icon(Icons.photo_camera),
                     ),
