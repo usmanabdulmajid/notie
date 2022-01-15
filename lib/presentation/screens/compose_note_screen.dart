@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/domain/models/note.dart';
+import 'package:notie/presentation/widgets/app_snackbar.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/utils/app_color.dart';
 import 'package:notie/utils/enums.dart';
@@ -37,59 +38,72 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<NotecubitCubit>(context);
-    return Scaffold(
-      backgroundColor: AppColor.mainColor,
-      body: Padding(
-        padding: const EdgeInsets.only(right: 15.0, left: 15.0, bottom: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TopBarButton(
-                    onPressed: () {},
-                    child: const ImageIcon(
-                      AssetImage('asset/images/ios_arrow.png'),
-                      color: AppColor.white,
-                      size: 16,
+    return BlocListener<NotecubitCubit, NotecubitState>(
+      listener: (context, state) {
+        if (state is SaveNote) {
+          if (state.success) {
+            Navigator.pop(context);
+          } else {
+            AppSnackBar.failure(context, 'Fail to save note');
+          }
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColor.mainColor,
+        body: Padding(
+          padding: const EdgeInsets.only(right: 15.0, left: 15.0, bottom: 20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TopBarButton(
+                      onPressed: () {},
+                      child: const ImageIcon(
+                        AssetImage('asset/images/ios_arrow.png'),
+                        color: AppColor.white,
+                        size: 16,
+                      ),
                     ),
-                  ),
-                  TopBarButton(
-                    onPressed: () {
-                      final note = setNote(
-                          noteType: NoteType.text,
-                          title: _titleCtr.text,
-                          body: _bodyCtr.text);
-                      cubit.saveNote(note);
-                    },
-                    child: const Text(
-                      'SAVE',
-                      style: TextStyle(color: AppColor.white),
+                    TopBarButton(
+                      onPressed: () {
+                        final note = setNote(
+                            noteType: NoteType.text,
+                            title: _titleCtr.text,
+                            body: _bodyCtr.text);
+                        cubit.saveNote(note);
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      child: const Text(
+                        'SAVE',
+                        style: TextStyle(color: AppColor.white),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 50),
-              TextField(
-                controller: _titleCtr,
-                style: const TextStyle(fontSize: 30, color: AppColor.white),
-                decoration: const InputDecoration.collapsed(
-                    hintText: 'Title',
-                    hintStyle: TextStyle(color: Colors.white60, fontSize: 30)),
-              ),
-              const SizedBox(height: 50),
-              TextField(
-                controller: _bodyCtr,
-                style: const TextStyle(color: AppColor.white),
-                maxLines: null,
-                decoration: const InputDecoration.collapsed(
-                  hintText: 'Type something....',
-                  hintStyle: TextStyle(color: Colors.white60),
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 50),
+                TextField(
+                  controller: _titleCtr,
+                  style: const TextStyle(fontSize: 30, color: AppColor.white),
+                  decoration: const InputDecoration.collapsed(
+                      hintText: 'Title',
+                      hintStyle:
+                          TextStyle(color: Colors.white60, fontSize: 30)),
+                ),
+                const SizedBox(height: 50),
+                TextField(
+                  controller: _bodyCtr,
+                  style: const TextStyle(color: AppColor.white),
+                  maxLines: null,
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Type something....',
+                    hintStyle: TextStyle(color: Colors.white60),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
+import 'package:notie/presentation/widgets/app_snackbar.dart';
 import 'package:notie/utils/app_color.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -68,57 +69,71 @@ class _NoteScreenState extends State<NoteScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
-            BlocBuilder<NotecubitCubit, NotecubitState>(
+            const SizedBox(height: 20),
+            BlocConsumer<NotecubitCubit, NotecubitState>(
+              listener: (context, state) {
+                if (state is SaveNote) {
+                  if (state.success) {
+                    AppSnackBar.success(context, 'Note saved Successfully');
+                  }
+                }
+              },
               builder: (context, state) {
                 if (state is NoteLoading) {
                   return const Center(child: CircularProgressIndicator());
+                } else if (state is SaveNote) {
+                  return const SizedBox();
+                } else if (state is DeleteNote) {
+                  return const SizedBox();
                 }
+
                 LoadNote note = state as LoadNote;
                 return Expanded(
-                  child: StaggeredGridView.countBuilder(
-                    padding: EdgeInsets.zero,
-                    crossAxisCount: 4,
+                  child: GridView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemCount: note.notes.length,
-                    itemBuilder: (BuildContext context, int index) => Container(
-                      width: MediaQuery.of(context).size.width * .45,
-                      height: 300,
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemBuilder: (context, index) {
+                      return Card(
                         color: Color(note.notes[index].color),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            note.notes[index].title!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.white,
-                              height: 2.0,
-                            ),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                note.notes[index].title!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                    color: Colors.white),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                note.notes[index].body!,
+                                maxLines: 6,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(height: 1.5),
+                              ),
+                              const Spacer(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Icon(
+                                    Icons.upload,
+                                    size: 12.0,
+                                  ),
+                                  Text(note.notes[index].date)
+                                ],
+                              )
+                            ],
                           ),
-                          Text(
-                            note.notes[index].body!,
-                          ),
-                          Align(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(Icons.upload),
-                                Text(note.notes[index].date),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    staggeredTileBuilder: (int index) {
-                      return StaggeredTile.count(2, index.isOdd ? 2 : 1.5);
+                        ),
+                      );
                     },
-                    mainAxisSpacing: 6.0,
-                    crossAxisSpacing: 10.0,
                   ),
                 );
               },
