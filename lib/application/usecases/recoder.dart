@@ -38,10 +38,9 @@ class Recoder extends IRecoder {
     await initializeDateFormatting('en_GB');
     await flutterSoundRecorder.startRecorder(toFile: _filepath);
     subscription = flutterSoundRecorder.onProgress?.listen((event) {
-      print(event.duration.toString());
       final date =
           DateTime.fromMillisecondsSinceEpoch(event.duration.inMilliseconds);
-      final time = DateFormat('mm:ss:SS', 'en_GB').format(date);
+      final time = DateFormat('mm:ss:S', 'en_GB').format(date);
 
       _timer.sink.add(time);
     });

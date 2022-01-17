@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:notie/domain/models/note.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/utils/app_color.dart';
 
 class ReadNoteScreen extends StatelessWidget {
-  const ReadNoteScreen({Key? key}) : super(key: key);
+  final Note note;
+  const ReadNoteScreen({
+    required this.note,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

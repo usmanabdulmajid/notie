@@ -12,7 +12,7 @@ class NoteRepository implements INoteRepository {
   }
 
   @override
-  Future<bool> delete(List<String> ids) async {
+  Future<bool> delete(List<int> ids) async {
     final result = await localDatasource.deleteNotes(ids);
     return result;
   }

@@ -34,7 +34,6 @@ class Note {
   }
 
   factory Note.fromMap(Map<String, dynamic> map) {
-    print('shikai ${map['color']}');
     return Note(
       id: map['id'],
       title: map['title'],

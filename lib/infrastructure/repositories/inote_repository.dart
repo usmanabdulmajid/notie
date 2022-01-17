@@ -5,5 +5,5 @@ abstract class INoteRepository {
   Future<bool> update(Note note);
   Future<List<Note>> load();
   Future<List<Note>> search(String title);
-  Future<bool> delete(List<String> ids);
+  Future<bool> delete(List<int> ids);
 }

@@ -60,7 +60,9 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TopBarButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       child: const ImageIcon(
                         AssetImage('asset/images/ios_arrow.png'),
                         color: AppColor.white,
@@ -69,11 +71,18 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                     ),
                     TopBarButton(
                       onPressed: () {
-                        final note = setNote(
-                            noteType: NoteType.text,
-                            title: _titleCtr.text,
-                            body: _bodyCtr.text);
-                        cubit.saveNote(note);
+                        if (_titleCtr.text.isNotEmpty ||
+                            _bodyCtr.text.isNotEmpty) {
+                          final note = setNote(
+                              noteType: NoteType.text,
+                              title: _titleCtr.text,
+                              body: _bodyCtr.text);
+
+                          cubit.saveNote(note);
+                        } else {
+                          AppSnackBar.failure(context, 'Note cannot be empty');
+                        }
+
                         FocusScope.of(context).requestFocus(FocusNode());
                       },
                       child: const Text(

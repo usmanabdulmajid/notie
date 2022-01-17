@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/application/cubit/recoder_cubit.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/utils/app_color.dart';
+import 'package:notie/utils/enums.dart';
+import 'package:notie/utils/notehelper_mixin.dart';
 
 class AudioNoteScreen extends StatefulWidget {
   const AudioNoteScreen({Key? key}) : super(key: key);
@@ -12,8 +15,8 @@ class AudioNoteScreen extends StatefulWidget {
   State<AudioNoteScreen> createState() => _AudioNoteScreenState();
 }
 
-class _AudioNoteScreenState extends State<AudioNoteScreen> {
-  late final _audioPath;
+class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
+  late final String? _audioPath;
   @override
   void initState() {
     super.initState();
@@ -22,12 +25,14 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> {
 
   @override
   void dispose() {
+    //context.read<RecoderCubit>().close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<RecoderCubit>();
+    final noteCubit = context.read<NotecubitCubit>();
     return Scaffold(
       backgroundColor: AppColor.mainColor,
       body: Container(
@@ -49,7 +54,16 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> {
                   ),
                 ),
                 TopBarButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (_audioPath != null) {
+                      final note = setNote(
+                        noteType: NoteType.audio,
+                        audioPath: _audioPath,
+                      );
+                      await noteCubit.saveNote(note);
+                      Navigator.pop(context);
+                    }
+                  },
                   child: const Text(
                     'SAVE',
                     style: TextStyle(color: AppColor.white),
@@ -100,8 +114,9 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> {
                     child: const Text('Resume')),
                 ElevatedButton(
                     onPressed: () async {
-                      setState(() async {
-                        _audioPath = await cubit.stop();
+                      final _path = await cubit.stop();
+                      setState(() {
+                        _audioPath = _path;
                       });
                     },
                     child: const Text('Stop')),

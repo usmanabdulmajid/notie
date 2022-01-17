@@ -34,8 +34,9 @@ mixin HelperMixin {
       note.title = title;
       note.body = body;
     } else {
+      final time = DateTime.now();
       note.title ??= 'voice note';
-      note.audioPath = audioPath;
+      note.audioPath = audioPath! + '/$time';
     }
 
     return note;

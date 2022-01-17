@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
+import 'package:notie/application/usecases/player.dart';
+import 'package:notie/presentation/screens/audio_note_screen.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
 import 'package:notie/utils/app_color.dart';
+import 'package:notie/utils/enums.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({Key? key}) : super(key: key);
@@ -15,12 +19,6 @@ class NoteScreen extends StatefulWidget {
 }
 
 class _NoteScreenState extends State<NoteScreen> {
-  List<String> xl = [
-    'hejhejhjjjnjkll;;;;;nnnnnnnnnnnnnnnnnnnnn',
-    'dcbnfvndvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvashvfhjevfhhjd ncvvvvvvvvnxxx heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeev',
-    'csdhhvc mhejjvegdcssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -74,7 +72,7 @@ class _NoteScreenState extends State<NoteScreen> {
               listener: (context, state) {
                 if (state is SaveNote) {
                   if (state.success) {
-                    AppSnackBar.success(context, 'Note saved Successfully');
+                    AppSnackBar.success(context, 'Note Saved Successfully');
                   }
                 }
               },
@@ -96,6 +94,24 @@ class _NoteScreenState extends State<NoteScreen> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                     itemBuilder: (context, index) {
+                      if (note.notes[index].noteType == NoteType.audio) {
+                        return GestureDetector(
+                          onTap: () async {
+                            // Player player = Player(FlutterSound());
+                            // await player.init();
+                            // await player.play(note.notes[index].audioPath!);
+                          },
+                          child: Card(
+                            color: Color(note.notes[index].color),
+                            child: Column(
+                              children: [
+                                Text(note.notes[index].title!),
+                                Text(note.notes[index].audioPath!)
+                              ],
+                            ),
+                          ),
+                        );
+                      }
                       return Card(
                         color: Color(note.notes[index].color),
                         child: Container(
@@ -145,7 +161,7 @@ class _NoteScreenState extends State<NoteScreen> {
         backgroundColor: Colors.green,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return const ComposeNoteScreen();
+            return const AudioNoteScreen();
           }));
         },
         child: const Icon(Icons.create),

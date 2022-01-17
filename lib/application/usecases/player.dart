@@ -1,9 +1,9 @@
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:notie/domain/usecases/iaudio_player.dart';
+import 'package:notie/domain/usecases/iplayer.dart';
 
-class AudioPlayer implements IAudioPlayer {
+class Player implements IPlayer {
   final FlutterSound flutterSound;
-  AudioPlayer(this.flutterSound);
+  Player(this.flutterSound);
   late final FlutterSoundPlayer flutterSoundPlayer;
 
   @override
@@ -21,7 +21,8 @@ class AudioPlayer implements IAudioPlayer {
   @override
   Future play(String path) async {
     if (flutterSoundPlayer.isOpen()) {
-      await flutterSoundPlayer.startPlayer(fromURI: path);
+      await flutterSound.thePlayer.startPlayer(fromURI: path);
+      //print('zobo ${flutterSound.thePlayer.isPlaying}');
     }
   }
 

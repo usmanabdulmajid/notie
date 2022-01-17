@@ -8,7 +8,7 @@ part 'recoder_state.dart';
 
 class RecoderCubit extends Cubit<RecoderState> {
   final IRecorderRepository recorderRepository;
-  StreamSubscription<String>? _timer;
+  late final StreamSubscription<String> _timer;
   RecoderCubit(this.recorderRepository) : super(RecoderInitial());
 
   Future<void> init() async {
@@ -39,8 +39,10 @@ class RecoderCubit extends Cubit<RecoderState> {
     return path;
   }
 
-  Future<void> dispose() async {
+  @override
+  Future<void> close() async {
     await recorderRepository.dispose();
-    _timer?.cancel();
+    _timer.cancel();
+    return super.close();
   }
 }
