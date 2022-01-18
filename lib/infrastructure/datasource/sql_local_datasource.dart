@@ -47,7 +47,7 @@ class SqlLocalDatasource implements ILocalDatasource {
     final db = await database;
     List<Note> notes = [];
     List<Map<String, dynamic>> result =
-        await db.query('note', where: '$title = ?', whereArgs: [title]);
+        await db.query('note', where: 'title = ?', whereArgs: [title]);
     notes = result.map((e) {
       return Note.fromMap(e);
     }).toList();

@@ -6,6 +6,7 @@ import 'package:notie/infrastructure/datasource/sql_local_datasource.dart';
 import 'package:notie/infrastructure/repositories/note_repository.dart';
 import 'package:notie/infrastructure/repositories/recorder_repository.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
+import 'package:notie/routes.dart';
 
 import 'application/cubit/recoder_cubit.dart';
 import 'application/usecases/recoder.dart';
@@ -44,11 +45,12 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Notie',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: const NoteScreen(),
+        onGenerateRoute: Routes.generateRoute,
       ),
     );
   }
