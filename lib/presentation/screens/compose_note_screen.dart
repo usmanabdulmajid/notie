@@ -10,7 +10,8 @@ import 'package:notie/utils/notehelper_mixin.dart';
 import 'package:provider/provider.dart';
 
 class ComposeNoteScreen extends StatefulWidget {
-  const ComposeNoteScreen({Key? key}) : super(key: key);
+  final Note? note;
+  const ComposeNoteScreen({this.note, Key? key}) : super(key: key);
 
   @override
   State<ComposeNoteScreen> createState() => _ComposeNoteScreenState();
@@ -24,8 +25,13 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
   @override
   void initState() {
     super.initState();
+
     _titleCtr = TextEditingController();
     _bodyCtr = TextEditingController();
+    if (widget.note != null) {
+      _titleCtr.text = widget.note?.title as String;
+      _bodyCtr.text = widget.note?.body as String;
+    }
   }
 
   @override
@@ -45,6 +51,13 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
             Navigator.pop(context);
           } else {
             AppSnackBar.failure(context, 'Fail to save note');
+          }
+        }
+        if (state is UpdateNote) {
+          if (state.updated) {
+            Navigator.pop(context);
+          } else {
+            AppSnackBar.failure(context, 'Fail to Update note');
           }
         }
       },
@@ -78,7 +91,12 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                               title: _titleCtr.text,
                               body: _bodyCtr.text);
 
-                          cubit.saveNote(note);
+                          if (widget.note?.id == null) {
+                            cubit.saveNote(note);
+                          } else {
+                            note.id = widget.note?.id;
+                            cubit.updateNote(note);
+                          }
                         } else {
                           AppSnackBar.failure(context, 'Note cannot be empty');
                         }

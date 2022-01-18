@@ -29,6 +29,14 @@ class SaveNote extends NotecubitState {
   List<Object?> get props => [success];
 }
 
+class UpdateNote extends NotecubitState {
+  final bool updated;
+  UpdateNote(this.updated);
+  @override
+  // TODO: implement props
+  List<Object?> get props => [updated];
+}
+
 class DeleteNote extends NotecubitState {
   final bool deleted;
   DeleteNote(this.deleted);

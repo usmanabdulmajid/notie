@@ -50,6 +50,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     final date = DateFormat.yMMMd().format(DateTime.now());
     note.copywith(date: date);
     final result = await noteRepository.update(note);
+    emit(UpdateNote(result));
     if (result) {
       await loadNotes();
     }

@@ -57,8 +57,8 @@ class SqlLocalDatasource implements ILocalDatasource {
   @override
   Future<bool> updateNote(Note note) async {
     final db = await database;
-    var result = await db.update('note', note.toMap(),
-        where: '${note.id} = ?', whereArgs: [note.id]);
+    var result = await db
+        .update('note', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
     return result != 0;
   }
 }

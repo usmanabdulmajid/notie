@@ -75,6 +75,11 @@ class _NoteScreenState extends State<NoteScreen> {
                     AppSnackBar.success(context, 'Note Saved Successfully');
                   }
                 }
+                if (state is UpdateNote) {
+                  if (state.updated) {
+                    AppSnackBar.success(context, 'Note Updated Successfully');
+                  }
+                }
               },
               builder: (context, state) {
                 if (state is NoteLoading) {
@@ -82,6 +87,8 @@ class _NoteScreenState extends State<NoteScreen> {
                 } else if (state is SaveNote) {
                   return const SizedBox();
                 } else if (state is DeleteNote) {
+                  return const SizedBox();
+                } else if (state is UpdateNote) {
                   return const SizedBox();
                 }
 
@@ -112,40 +119,48 @@ class _NoteScreenState extends State<NoteScreen> {
                           ),
                         );
                       }
-                      return Card(
-                        color: Color(note.notes[index].color),
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                note.notes[index].title!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Colors.white),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                note.notes[index].body!,
-                                maxLines: 6,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(height: 1.5),
-                              ),
-                              const Spacer(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Icon(
-                                    Icons.upload,
-                                    size: 12.0,
-                                  ),
-                                  Text(note.notes[index].date)
-                                ],
-                              )
-                            ],
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ComposeNoteScreen(note: note.notes[index]);
+                          }));
+                        },
+                        child: Card(
+                          color: Color(note.notes[index].color),
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  note.notes[index].title!,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  note.notes[index].body!,
+                                  maxLines: 6,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(height: 1.5),
+                                ),
+                                const Spacer(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Icon(
+                                      Icons.upload,
+                                      size: 12.0,
+                                    ),
+                                    Text(note.notes[index].date)
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -161,7 +176,7 @@ class _NoteScreenState extends State<NoteScreen> {
         backgroundColor: Colors.green,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return const AudioNoteScreen();
+            return const ComposeNoteScreen();
           }));
         },
         child: const Icon(Icons.create),
