@@ -46,8 +46,8 @@ class SqlLocalDatasource implements ILocalDatasource {
   Future<List<Note>> searchNotes(String title) async {
     final db = await database;
     List<Note> notes = [];
-    List<Map<String, dynamic>> result =
-        await db.query('note', where: 'title = ?', whereArgs: [title]);
+    List<Map<String, dynamic>> result = await db
+        .rawQuery('SELECT * FROM note  WHERE title LIKE ?', ['%$title%']);
     notes = result.map((e) {
       return Note.fromMap(e);
     }).toList();
