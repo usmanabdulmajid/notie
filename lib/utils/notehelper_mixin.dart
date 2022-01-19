@@ -16,7 +16,12 @@ mixin HelperMixin {
       Color(0XFFFFF8E5),
       Color(0XFFFFB344),
       Color(0XFF00A19D),
-      Color(0XFFFF6F06)
+      Color(0XFFFF6F06),
+      Color(0XFFF4A261),
+      Color(0XFF2A9D8F),
+      Color(0XFF264653),
+      Color(0XFFE76F51),
+      Color(0XFFE9C46A),
     ];
     int random = Random().nextInt(colors.length);
     return colors[random];

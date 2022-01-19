@@ -8,7 +8,10 @@ import 'package:notie/application/usecases/player.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
+import 'package:notie/presentation/widgets/audio_note_tile.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
+import 'package:notie/presentation/widgets/text_note_tile.dart';
+import 'package:notie/routes.dart';
 import 'package:notie/utils/app_color.dart';
 import 'package:notie/utils/enums.dart';
 import 'package:notie/utils/extensions.dart';
@@ -114,82 +117,20 @@ class _NoteScreenState extends State<NoteScreen> {
 
                   LoadNote note = state as LoadNote;
                   return Expanded(
-                    child: GridView.builder(
+                    child: MasonryGridView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: note.notes.length,
+                      mainAxisSpacing: 2.0,
+                      crossAxisSpacing: 2.0,
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
+                          const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
                       itemBuilder: (context, index) {
                         if (note.notes[index].noteType == NoteType.audio) {
-                          return GestureDetector(
-                            onTap: () async {
-                              // Player player = Player(FlutterSound());
-                              // await player.init();
-                              // await player.play(note.notes[index].audioPath!);
-                            },
-                            child: Card(
-                              color: Color(note.notes[index].color),
-                              child: Column(
-                                children: [
-                                  Text(note.notes[index].title!),
-                                  Text(note.notes[index].audioPath!)
-                                ],
-                              ),
-                            ),
-                          );
+                          return AudioNoteTile(note: note.notes[index]);
                         }
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ComposeNoteScreen(
-                                    note: note.notes[index],
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          child: Card(
-                            color: Color(note.notes[index].color),
-                            child: Container(
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    note.notes[index].title!,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    note.notes[index].body!,
-                                    maxLines: 6,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(height: 1.5),
-                                  ),
-                                  const Spacer(),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Icon(
-                                        Icons.upload,
-                                        size: 12.0,
-                                      ),
-                                      Text(note.notes[index].date)
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                        return TextNoteTile(note: note.notes[index]);
                       },
                     ),
                   );
@@ -201,9 +142,7 @@ class _NoteScreenState extends State<NoteScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return const ComposeNoteScreen();
-            }));
+            Navigator.pushNamed(context, Routes.composeNote);
           },
           child: const Icon(Icons.create),
         ),

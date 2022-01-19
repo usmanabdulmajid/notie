@@ -5,6 +5,7 @@ import 'package:notie/domain/models/note.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
+import 'package:notie/routes.dart';
 import 'package:notie/utils/app_color.dart';
 import 'package:notie/utils/enums.dart';
 import 'package:notie/utils/extensions.dart';
@@ -57,7 +58,7 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
         }
         if (state is UpdateNote) {
           if (state.updated) {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, Routes.home);
           } else {
             AppSnackBar.failure(context, 'Fail to Update note');
           }
