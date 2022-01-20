@@ -47,26 +47,29 @@ class _NoteScreenState extends State<NoteScreen> {
         body: Container(
           height: double.maxFinite,
           width: double.maxFinite,
-          padding: const EdgeInsets.only(right: 15.0, left: 15.0, bottom: 20.0),
+          padding: const EdgeInsets.only(bottom: 20.0),
           child: Column(
             children: [
               SizedBox(height: context.barHeight),
               Stack(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: const ImageIcon(
-                          AssetImage('asset/images/menu_button.png'),
-                          color: AppColor.white,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: const ImageIcon(
+                            AssetImage('asset/images/menu_button.png'),
+                            color: AppColor.white,
+                          ),
                         ),
-                      ),
-                      const CircleAvatar(
-                        backgroundColor: AppColor.white,
-                      ),
-                    ],
+                        const CircleAvatar(
+                          backgroundColor: AppColor.white,
+                        ),
+                      ],
+                    ),
                   ),
                   BlocBuilder<NotecubitCubit, NotecubitState>(
                     builder: (context, state) {
@@ -75,10 +78,9 @@ class _NoteScreenState extends State<NoteScreen> {
                           opacity: state.selections!.isEmpty ? 0 : 1,
                           duration: const Duration(milliseconds: 200),
                           child: Container(
-                            //height: 50,
                             padding: const EdgeInsets.all(4.0),
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.deepPurple,
+                            color: const Color(0XFF264653),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -113,27 +115,34 @@ class _NoteScreenState extends State<NoteScreen> {
                 ],
               ),
               const SizedBox(height: 20),
-              Container(
-                height: 40,
-                padding: const EdgeInsets.only(left: 10.0),
-                decoration: BoxDecoration(
-                  color: AppColor.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: TextField(
-                  controller: _searchCtrl,
-                  autofocus: false,
-                  decoration: const InputDecoration(
-                    hintText: 'search note',
-                    border: InputBorder.none,
-                    suffixIcon: Icon(Icons.mic),
-                  ),
-                  onChanged: (value) {
-                    if (value.isEmpty) {
-                      cubit.loadNotes();
-                    }
-                    cubit.searchNotes(value);
-                  },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 40,
+                      padding: const EdgeInsets.only(left: 10.0),
+                      decoration: BoxDecoration(
+                        color: AppColor.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextField(
+                        controller: _searchCtrl,
+                        autofocus: false,
+                        decoration: const InputDecoration(
+                          hintText: 'search note',
+                          border: InputBorder.none,
+                          suffixIcon: Icon(Icons.mic),
+                        ),
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            cubit.loadNotes();
+                          }
+                          cubit.searchNotes(value);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -164,27 +173,27 @@ class _NoteScreenState extends State<NoteScreen> {
                   LoadNote note = state as LoadNote;
 
                   return Expanded(
-                    child: MasonryGridView.builder(
-                      padding: const EdgeInsets.only(top: 20),
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: note.notes.length,
-                      mainAxisSpacing: 6.0,
-                      crossAxisSpacing: 6.0,
-                      gridDelegate:
-                          const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: MasonryGridView.builder(
+                        padding: const EdgeInsets.only(top: 20),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: note.notes.length,
+                        mainAxisSpacing: 6.0,
+                        crossAxisSpacing: 6.0,
+                        gridDelegate:
+                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          if (note.notes[index].noteType == NoteType.audio) {
+                            return AudioNoteTile(note: note.notes[index]);
+                          }
+                          return TextNoteTile(
+                              note: note.notes[index],
+                              selections: note.selections);
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        if (note.notes[index].noteType == NoteType.audio) {
-                          return AudioNoteTile(note: note.notes[index]);
-                        }
-                        return Container(
-                          color: note.selections!.contains(note.notes[index].id)
-                              ? Colors.green
-                              : Colors.transparent,
-                          child: TextNoteTile(note: note.notes[index]),
-                        );
-                      },
                     ),
                   );
                 },
@@ -193,7 +202,7 @@ class _NoteScreenState extends State<NoteScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.green,
+          backgroundColor: const Color(0XFF264653),
           onPressed: () {
             Navigator.pushNamed(context, Routes.composeNote);
           },

@@ -14,7 +14,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   NotecubitCubit(this.noteRepository) : super(NoteLoading());
   bool noteSelection = false;
   List<int> selectedNoteId = [];
-  Map<int, bool> selectionMap = <int, bool>{};
+  Map<int, bool?> selectionMap = <int, bool?>{};
 
   Future<void> loadNotes() async {
     final notes = await noteRepository.load();

@@ -8,7 +8,10 @@ import 'package:provider/src/provider.dart';
 
 class TextNoteTile extends StatelessWidget {
   final Note note;
-  const TextNoteTile({required this.note, Key? key}) : super(key: key);
+  final List<int>? selections;
+  const TextNoteTile({required this.note, this.selections, Key? key})
+      : super(key: key);
+  bool get isSelected => selections!.contains(note.id);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,20 @@ class TextNoteTile extends StatelessWidget {
           context.read<NotecubitCubit>().onPressedNote(note.id!);
         }
       },
-      child: Card(
-        color: Color(note.color),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: isSelected
+              ? const Color(0XFF264653).withOpacity(0.5)
+              : Colors.transparent,
+        ),
+        padding: EdgeInsets.all(isSelected ? 8 : 4),
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: Color(note.color).withOpacity(isSelected ? 0.7 : 1),
+          ),
           padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
