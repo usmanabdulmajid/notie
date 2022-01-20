@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/domain/models/note.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/screens/read_note_screen.dart';
 import 'package:notie/routes.dart';
+import 'package:provider/src/provider.dart';
 
 class TextNoteTile extends StatelessWidget {
   final Note note;
@@ -11,8 +13,16 @@ class TextNoteTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: () {
+        context.read<NotecubitCubit>().onLongPressedNote(note.id!);
+      },
       onTap: () {
-        Navigator.pushNamed(context, Routes.readNote, arguments: note);
+        final response = context.read<NotecubitCubit>().proceedNavigation();
+        if (response) {
+          Navigator.pushNamed(context, Routes.readNote, arguments: note);
+        } else {
+          context.read<NotecubitCubit>().onPressedNote(note.id!);
+        }
       },
       child: Card(
         color: Color(note.color),

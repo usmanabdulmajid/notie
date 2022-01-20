@@ -34,7 +34,11 @@ mixin HelperMixin {
     String? audioPath,
   }) {
     final date = DateFormat.yMMMd().format(DateTime.now());
-    Note note = Note(color: noteColor().value, noteType: noteType, date: date);
+    Note note = Note(
+        color: noteColor().value,
+        noteType: noteType,
+        date: date,
+        isSelected: false);
     if (noteType == NoteType.text) {
       note.title = title;
       note.body = body;

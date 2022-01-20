@@ -20,7 +20,9 @@ class SqlLocalDatasource implements ILocalDatasource {
   @override
   Future<bool> deleteNotes(List<int> ids) async {
     final db = await database;
-    var result = await db.delete('note', where: '$ids = ?', whereArgs: ids);
+    var result = await db.delete('note',
+        where: 'id IN (${List.filled(ids.length, '?').join(',')})',
+        whereArgs: ids);
     return result != 0;
   }
 

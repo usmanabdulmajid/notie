@@ -18,7 +18,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   Future<void> loadNotes() async {
     final notes = await noteRepository.load();
-    emit(LoadNote(notes));
+    emit(LoadNote(notes, selections: selectedNoteId));
   }
 
   Future<void> saveNote(Note note) async {
@@ -33,7 +33,9 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     if (selectedNoteId.isNotEmpty) {
       final result = await noteRepository.delete(selectedNoteId);
       emit(DeleteNote(result));
+
       if (result) {
+        selectedNoteId.clear();
         await loadNotes();
       }
     }
@@ -56,19 +58,39 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     }
   }
 
+  bool proceedNavigation() {
+    if (!noteSelection && selectedNoteId.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void onPressedNote(int id) {
     if (noteSelection) {
-      selectionMap[id] = true;
-    }
-    if (selectionMap.containsKey(id)) {
-      selectionMap[id] = false;
+      if (selectedNoteId.contains(id)) {
+        selectedNoteId.remove(id);
+      } else {
+        selectedNoteId.add(id);
+      }
+      loadNotes();
+      if (selectedNoteId.isEmpty) {
+        noteSelection = false;
+      }
     }
   }
 
   void onLongPressedNote(int id) {
-    if (!noteSelection) {
+    if (!noteSelection || !selectedNoteId.contains(id)) {
       noteSelection = true;
-      selectionMap[id] = true;
+      selectedNoteId.add(id);
+      loadNotes();
     }
+  }
+
+  void clearSelections() {
+    noteSelection = false;
+    selectedNoteId.clear();
+    loadNotes();
   }
 }

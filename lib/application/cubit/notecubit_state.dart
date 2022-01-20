@@ -15,7 +15,8 @@ class Loading extends NotecubitState {
 
 class LoadNote extends NotecubitState {
   final List<Note> notes;
-  LoadNote(this.notes);
+  List<int>? selections;
+  LoadNote(this.notes, {this.selections});
 
   @override
   List<Object?> get props => [notes];

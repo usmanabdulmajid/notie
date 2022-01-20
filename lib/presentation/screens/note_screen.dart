@@ -51,18 +51,64 @@ class _NoteScreenState extends State<NoteScreen> {
           child: Column(
             children: [
               SizedBox(height: context.barHeight),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: const ImageIcon(
-                      AssetImage('asset/images/menu_button.png'),
-                      color: AppColor.white,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: const ImageIcon(
+                          AssetImage('asset/images/menu_button.png'),
+                          color: AppColor.white,
+                        ),
+                      ),
+                      const CircleAvatar(
+                        backgroundColor: AppColor.white,
+                      ),
+                    ],
                   ),
-                  const CircleAvatar(
-                    backgroundColor: AppColor.white,
+                  BlocBuilder<NotecubitCubit, NotecubitState>(
+                    builder: (context, state) {
+                      if (state is LoadNote) {
+                        return AnimatedOpacity(
+                          opacity: state.selections!.isEmpty ? 0 : 1,
+                          duration: const Duration(milliseconds: 200),
+                          child: Container(
+                            //height: 50,
+                            padding: const EdgeInsets.all(4.0),
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.deepPurple,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        cubit.clearSelections();
+                                      },
+                                      icon: const Icon(Icons.close),
+                                    ),
+                                    Text(
+                                      state.selections!.length.toString(),
+                                      style: const TextStyle(fontSize: 18.0),
+                                    )
+                                  ],
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    cubit.deleteNote();
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
                   ),
                 ],
               ),
@@ -116,12 +162,14 @@ class _NoteScreenState extends State<NoteScreen> {
                   }
 
                   LoadNote note = state as LoadNote;
+
                   return Expanded(
                     child: MasonryGridView.builder(
+                      padding: const EdgeInsets.only(top: 20),
                       physics: const BouncingScrollPhysics(),
                       itemCount: note.notes.length,
-                      mainAxisSpacing: 2.0,
-                      crossAxisSpacing: 2.0,
+                      mainAxisSpacing: 6.0,
+                      crossAxisSpacing: 6.0,
                       gridDelegate:
                           const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -130,7 +178,12 @@ class _NoteScreenState extends State<NoteScreen> {
                         if (note.notes[index].noteType == NoteType.audio) {
                           return AudioNoteTile(note: note.notes[index]);
                         }
-                        return TextNoteTile(note: note.notes[index]);
+                        return Container(
+                          color: note.selections!.contains(note.notes[index].id)
+                              ? Colors.green
+                              : Colors.transparent,
+                          child: TextNoteTile(note: note.notes[index]),
+                        );
                       },
                     ),
                   );
