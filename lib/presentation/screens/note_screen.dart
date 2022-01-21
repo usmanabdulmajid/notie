@@ -75,7 +75,7 @@ class _NoteScreenState extends State<NoteScreen> {
                     builder: (context, state) {
                       if (state is LoadNote) {
                         return AnimatedOpacity(
-                          opacity: state.selections!.isEmpty ? 0 : 1,
+                          opacity: state.selections.isEmpty ? 0 : 1,
                           duration: const Duration(milliseconds: 200),
                           child: Container(
                             padding: const EdgeInsets.all(4.0),
@@ -93,7 +93,7 @@ class _NoteScreenState extends State<NoteScreen> {
                                       icon: const Icon(Icons.close),
                                     ),
                                     Text(
-                                      state.selections!.length.toString(),
+                                      state.selections.length.toString(),
                                       style: const TextStyle(fontSize: 18.0),
                                     )
                                   ],

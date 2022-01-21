@@ -47,15 +47,17 @@ class TextNoteTile extends StatelessWidget {
             children: [
               Text(
                 note.title!,
+                maxLines: 1,
                 style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
                     color: Colors.white),
               ),
               const SizedBox(height: 10),
               Text(
                 note.body!,
-                maxLines: 6,
+                maxLines: 11,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(height: 1.5),
               ),

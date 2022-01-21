@@ -44,7 +44,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   Future<void> searchNotes(String title) async {
     final searchedNotes = await noteRepository.search(title);
     if (searchedNotes.isNotEmpty) {
-      emit(LoadNote(searchedNotes));
+      emit(LoadNote(searchedNotes, selections: selectedNoteId));
     } else {}
   }
 
