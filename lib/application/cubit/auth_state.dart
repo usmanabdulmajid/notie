@@ -17,7 +17,7 @@ class SignIn extends AuthState {
   List<Object> get props => [];
 }
 
-class SignedIn extends AuthState {
+class LoggedIn extends AuthState {
   @override
   List<Object> get props => [];
 }

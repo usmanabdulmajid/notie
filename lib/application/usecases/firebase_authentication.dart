@@ -6,20 +6,16 @@ class FirebaseAuthImp implements IAuthentication {
   final FirebaseAuth firebaseAuth;
   FirebaseAuthImp(this.firebaseAuth);
   @override
-  Future signInWithEmail(
+  Future<bool> logInWithEmail(
       {required String email, required String password}) async {
-    UserCredential userCredential;
-
     try {
-      userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('user not found');
-      } else if (e.code == 'wrong password') {
-        print('wrong password');
-      }
+      } else if (e.code == 'wrong password') {}
     }
+    return firebaseAuth.currentUser != null;
   }
 
   @override
@@ -34,24 +30,18 @@ class FirebaseAuthImp implements IAuthentication {
   }
 
   @override
-  Future signUpWithEmail(
+  Future<bool> signUpWithEmail(
       {required String email, required String password}) async {
     try {
-      UserCredential userCredential = await firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      print(userCredential);
-      print('shikai');
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      print('zangetsu');
-      print(e);
       if (e.code == 'weak-password') {
-        print('week password');
-      } else if (e.code == 'email-already-in-use') {
-        print('email laready in use');
-      }
+      } else if (e.code == 'email-already-in-use') {}
     } catch (e) {
-      print(e);
+      //print(e);
     }
+    return firebaseAuth.currentUser != null;
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/routes.dart';
 import 'package:notie/utils/app_color.dart';
+import 'package:notie/utils/validator.dart';
 import 'package:provider/src/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -16,9 +17,10 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> with Validator {
   late TextEditingController _emailCtrl;
   late TextEditingController _passwordCtrl;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<AuthCubit>();
     return CustomStatusBar(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -56,74 +59,101 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   fontSize: 30,
                 ),
               ),
-              const SizedBox(height: 50),
-              BorderTextField(
-                hintText: 'email',
-                controller: _emailCtrl,
+              const SizedBox(height: 15),
+              Form(
+                key: _formkey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: BorderTextField(
+                        hintText: 'Email',
+                        validator: validateEmail,
+                        controller: _emailCtrl,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: BorderTextField(
+                        hintText: 'Password',
+                        validator: validatePassword,
+                        controller: _passwordCtrl,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 30),
-              BorderTextField(
-                hintText: 'password',
-                controller: _passwordCtrl,
-              ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 16),
               AuthenticationButton(
                 onPressed: () async {
-                  await context
-                      .read<AuthCubit>()
-                      .signUpWithEmail(_emailCtrl.text, _passwordCtrl.text);
+                  final validate = _formkey.currentState!.validate();
+                  if (validate) {
+                    final result = await cubit.signUpWithEmail(
+                        _emailCtrl.text.trim(), _passwordCtrl.text.trim());
+
+                    if (result) {
+                      Navigator.pushNamed(context, Routes.home);
+                    }
+                  }
                 },
-                text: 'sign up',
+                text: 'Sign up',
               ),
-              const SizedBox(height: 30),
-              Row(
-                children: const [
-                  Expanded(
-                      child: Divider(
-                    color: AppColor.white,
-                    thickness: 2.0,
-                  )),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'OR',
-                      style: TextStyle(color: AppColor.white),
+              Expanded(
+                flex: 6,
+                child: Row(
+                  children: const [
+                    Expanded(
+                        child: Divider(
+                      color: AppColor.white,
+                      thickness: 2.0,
+                    )),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'OR',
+                        style: TextStyle(color: AppColor.white),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                      child: Divider(
-                    color: AppColor.white,
-                    thickness: 2.0,
-                  )),
-                ],
+                    Expanded(
+                        child: Divider(
+                      color: AppColor.white,
+                      thickness: 2.0,
+                    )),
+                  ],
+                ),
               ),
-              const SizedBox(height: 30),
-              AltButton(
-                onPressed: () {},
-                iconData: FontAwesomeIcons.google,
-                text: 'sign up with google',
+              Expanded(
+                flex: 2,
+                child: AltButton(
+                  onPressed: () {},
+                  iconData: FontAwesomeIcons.google,
+                  text: 'Sign up with Google',
+                ),
               ),
-              const SizedBox(height: 30),
-              AltButton(
-                onPressed: () {},
-                iconData: FontAwesomeIcons.facebook,
-                text: 'sign up with facebook',
+              const SizedBox(
+                height: 15,
+              ),
+              Expanded(
+                flex: 2,
+                child: AltButton(
+                  onPressed: () {},
+                  iconData: FontAwesomeIcons.facebook,
+                  text: 'Sign up with Facebook',
+                ),
               ),
               const SizedBox(height: 30.0),
               Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, Routes.home);
                   },
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColor.oranage.withOpacity(0.8),
                     ),
-                    alignment: Alignment.center,
                     child: const Text(
                       'Skip',
                       style: TextStyle(color: AppColor.white),

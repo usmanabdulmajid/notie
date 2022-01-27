@@ -18,7 +18,7 @@ class AltButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.maxFinite,
-        height: 45,
+        //height: 45,
         decoration: BoxDecoration(
           color: AppColor.white,
           borderRadius: BorderRadius.circular(8),

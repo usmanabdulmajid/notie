@@ -16,7 +16,7 @@ class AuthenticationButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.maxFinite,
-        height: 45,
+        height: 50,
         decoration: BoxDecoration(
           color: AppColor.oranage,
           borderRadius: BorderRadius.circular(8),

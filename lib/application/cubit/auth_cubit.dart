@@ -9,15 +9,16 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authentication) : super(AuthLoading());
 
   Future<void> loadDetails() async {
+    await Future.delayed(const Duration(seconds: 1));
     final result = await authentication.authPersistState();
     if (result) {
-      emit(SignedIn());
+      emit(LoggedIn());
     } else {
       emit(SignIn());
     }
   }
 
-  Future signUpWithEmail(String email, String password) async {
+  Future<bool> signUpWithEmail(String email, String password) async {
     final result =
         await authentication.signUpWithEmail(email: email, password: password);
 

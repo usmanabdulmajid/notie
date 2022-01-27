@@ -25,6 +25,8 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> {
   late TextEditingController _searchCtrl;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool onDrawer = true;
   @override
   void initState() {
     super.initState();
@@ -42,171 +44,199 @@ class _NoteScreenState extends State<NoteScreen> {
   Widget build(BuildContext context) {
     final cubit = context.read<NotecubitCubit>();
     return CustomStatusBar(
-      child: Scaffold(
-        backgroundColor: AppColor.mainColor,
-        body: Container(
-          height: double.maxFinite,
-          width: double.maxFinite,
-          padding: const EdgeInsets.only(bottom: 20.0),
-          child: Column(
-            children: [
-              SizedBox(height: context.barHeight),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: const ImageIcon(
-                            AssetImage('asset/images/menu_button.png'),
-                            color: AppColor.white,
-                          ),
-                        ),
-                        const CircleAvatar(
-                          backgroundColor: AppColor.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                  BlocBuilder<NotecubitCubit, NotecubitState>(
-                    builder: (context, state) {
-                      if (state is LoadNote) {
-                        return AnimatedOpacity(
-                          opacity: state.selections.isEmpty ? 0 : 1,
-                          duration: const Duration(milliseconds: 200),
-                          child: Container(
-                            padding: const EdgeInsets.all(4.0),
-                            width: MediaQuery.of(context).size.width,
-                            color: const Color(0XFF264653),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        cubit.clearSelections();
-                                      },
-                                      icon: const Icon(Icons.close),
-                                    ),
-                                    Text(
-                                      state.selections.length.toString(),
-                                      style: const TextStyle(fontSize: 18.0),
-                                    )
-                                  ],
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    cubit.deleteNote();
-                                  },
-                                  icon: const Icon(Icons.delete),
-                                )
-                              ],
+      child: GestureDetector(
+        onTap: () {
+          cubit.clearSelections();
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          key: _scaffoldKey,
+          backgroundColor: AppColor.mainColor,
+          drawer: const Drawer(),
+          body: Container(
+            height: double.maxFinite,
+            width: double.maxFinite,
+            padding: const EdgeInsets.only(bottom: 20.0),
+            child: Column(
+              children: [
+                SizedBox(height: context.barHeight),
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              //Scaffold.of(context).openDrawer();
+                              _scaffoldKey.currentState!.openDrawer();
+                            },
+                            child: const ImageIcon(
+                              AssetImage('asset/images/menu_button.png'),
+                              color: AppColor.white,
                             ),
                           ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      padding: const EdgeInsets.only(left: 10.0),
-                      decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(8),
+                          const CircleAvatar(
+                            backgroundColor: AppColor.white,
+                          ),
+                        ],
                       ),
-                      child: TextField(
-                        controller: _searchCtrl,
-                        autofocus: false,
-                        decoration: const InputDecoration(
-                          hintText: 'search note',
-                          border: InputBorder.none,
-                          suffixIcon: Icon(Icons.mic),
-                        ),
-                        onChanged: (value) {
-                          if (value.isEmpty) {
-                            cubit.loadNotes();
-                          }
-                          cubit.searchNotes(value);
-                        },
-                      ),
+                    ),
+                    BlocBuilder<NotecubitCubit, NotecubitState>(
+                      builder: (context, state) {
+                        if (state is LoadNote) {
+                          return AnimatedOpacity(
+                            opacity: state.selections.isEmpty ? 0 : 1,
+                            duration: const Duration(milliseconds: 200),
+                            child: Container(
+                              padding: const EdgeInsets.all(4.0),
+                              width: MediaQuery.of(context).size.width,
+                              color: const Color(0XFF264653),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          cubit.clearSelections();
+                                        },
+                                        icon: const Icon(Icons.close),
+                                      ),
+                                      Text(
+                                        state.selections.length.toString(),
+                                        style: const TextStyle(fontSize: 18.0),
+                                      )
+                                    ],
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      cubit.deleteNote();
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              BlocConsumer<NotecubitCubit, NotecubitState>(
-                listener: (context, state) {
-                  if (state is SaveNote) {
-                    if (state.success) {
-                      AppSnackBar.success(context, 'Note Saved Successfully');
-                    }
-                  }
-                  if (state is UpdateNote) {
-                    if (state.updated) {
-                      AppSnackBar.success(context, 'Note Updated Successfully');
-                    }
-                  }
-                },
-                builder: (context, state) {
-                  if (state is NoteLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is SaveNote) {
-                    return const SizedBox();
-                  } else if (state is DeleteNote) {
-                    return const SizedBox();
-                  } else if (state is UpdateNote) {
-                    return const SizedBox();
-                  }
-
-                  LoadNote note = state as LoadNote;
-
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: MasonryGridView.builder(
-                        padding: const EdgeInsets.only(top: 20),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: note.notes.length,
-                        mainAxisSpacing: 6.0,
-                        crossAxisSpacing: 6.0,
-                        gridDelegate:
-                            const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 40,
+                        padding: const EdgeInsets.only(left: 10.0),
+                        decoration: BoxDecoration(
+                          color: AppColor.white,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        itemBuilder: (context, index) {
-                          if (note.notes[index].noteType == NoteType.audio) {
-                            return AudioNoteTile(note: note.notes[index]);
-                          }
-                          return TextNoteTile(
-                              note: note.notes[index],
-                              selections: note.selections);
-                        },
+                        child: TextField(
+                          controller: _searchCtrl,
+                          autofocus: false,
+                          decoration: const InputDecoration(
+                            hintText: 'search note',
+                            border: InputBorder.none,
+                            suffixIcon: Icon(Icons.mic),
+                          ),
+                          onChanged: (value) {
+                            if (value.isEmpty) {
+                              cubit.loadNotes();
+                            }
+                            cubit.searchNotes(value);
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                BlocConsumer<NotecubitCubit, NotecubitState>(
+                  listener: (context, state) {
+                    if (state is SaveNote) {
+                      if (state.success) {
+                        AppSnackBar.success(context, 'Note Saved Successfully');
+                      }
+                    }
+                    if (state is UpdateNote) {
+                      if (state.updated) {
+                        AppSnackBar.success(
+                            context, 'Note Updated Successfully');
+                      }
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is NoteLoading) {
+                      return const Expanded(
+                          child: Center(child: CircularProgressIndicator()));
+                    } else if (state is SaveNote) {
+                      return const SizedBox();
+                    } else if (state is DeleteNote) {
+                      return const SizedBox();
+                    } else if (state is UpdateNote) {
+                      return const SizedBox();
+                    }
+
+                    LoadNote note = state as LoadNote;
+                    if (note.notes.isEmpty) {
+                      return const Expanded(
+                        child: Center(
+                          child: Text(
+                            'No available notes',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    }
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: MasonryGridView.builder(
+                          padding: const EdgeInsets.only(top: 20),
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: note.notes.length,
+                          mainAxisSpacing: 6.0,
+                          crossAxisSpacing: 6.0,
+                          gridDelegate:
+                              const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                          ),
+                          itemBuilder: (context, index) {
+                            if (note.notes[index].noteType == NoteType.audio) {
+                              return AudioNoteTile(note: note.notes[index]);
+                            }
+                            return TextNoteTile(
+                                note: note.notes[index],
+                                selections: note.selections);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0XFF264653),
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.composeNote);
-          },
-          child: const Icon(Icons.create),
+          floatingActionButton: context.openKeyboard
+              ? FloatingActionButton(
+                  backgroundColor: const Color(0XFF264653),
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.composeNote);
+                  },
+                  child: const Icon(Icons.create),
+                )
+              : null,
         ),
       ),
     );

@@ -14,7 +14,7 @@ class LaunchScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthLoading) {
           context.read<AuthCubit>().loadDetails();
-        } else if (state is SignedIn) {
+        } else if (state is LoggedIn) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (state is SignIn) {
           Navigator.pushReplacementNamed(context, Routes.signIn);
