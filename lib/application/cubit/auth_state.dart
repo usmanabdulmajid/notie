@@ -17,7 +17,7 @@ class SignIn extends AuthState {
   List<Object> get props => [];
 }
 
-class LoggedIn extends AuthState {
+class SignedIn extends AuthState {
   @override
   List<Object> get props => [];
 }
@@ -25,4 +25,11 @@ class LoggedIn extends AuthState {
 class SignedOut extends AuthState {
   @override
   List<Object> get props => [];
+}
+
+class AuthUser extends AuthState {
+  final bool hasAccount;
+  const AuthUser(this.hasAccount);
+  @override
+  List<Object> get props => [hasAccount];
 }

@@ -12,16 +12,44 @@ class AuthCubit extends Cubit<AuthState> {
     await Future.delayed(const Duration(seconds: 1));
     final result = await authentication.authPersistState();
     if (result) {
-      emit(LoggedIn());
+      emit(SignedIn());
     } else {
       emit(SignIn());
     }
   }
 
-  Future<bool> signUpWithEmail(String email, String password) async {
+  Future<void> authState() async {
+    final result = await authentication.authPersistState();
+    if (result) {
+      emit(AuthUser(result));
+    } else {
+      (emit(AuthUser(result)));
+    }
+  }
+
+  Future<void> signUpWithEmail(String email, String password) async {
     final result =
         await authentication.signUpWithEmail(email: email, password: password);
+    if (result) {
+      emit(SignedIn());
+      authState();
+    }
+  }
 
-    return result;
+  Future<void> loginWithEmail(String email, String password) async {
+    final result =
+        await authentication.logInWithEmail(email: email, password: password);
+    if (result) {
+      emit(SignedIn());
+      authState();
+    }
+  }
+
+  Future<void> signOut() async {
+    final result = await authentication.signOut();
+    if (result) {
+      emit(SignedOut());
+    }
+    authState();
   }
 }

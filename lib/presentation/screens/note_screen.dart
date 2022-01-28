@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notie/application/cubit/auth_cubit.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/application/usecases/player.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
@@ -52,7 +53,63 @@ class _NoteScreenState extends State<NoteScreen> {
         child: Scaffold(
           key: _scaffoldKey,
           backgroundColor: AppColor.mainColor,
-          drawer: const Drawer(),
+          drawer: Drawer(
+              backgroundColor: AppColor.mainColor,
+              child: BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is SignedOut) {
+                    Navigator.pushReplacementNamed(context, Routes.signIn);
+                  }
+                },
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: DrawerHeader(
+                          child: Image.asset(
+                            'asset/images/notie_header.png',
+                            scale: 1.2,
+                          ),
+                        ),
+                      ),
+                      const Divider(color: AppColor.white),
+                      const SizedBox(height: 80),
+                      if (state is AuthUser && (state.hasAccount == false))
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, Routes.signUp);
+                          },
+                          child: const Text(
+                            'Sign up',
+                            style: TextStyle(
+                                fontSize: 18.0, color: AppColor.white),
+                          ),
+                        ),
+                      if (state is AuthUser && state.hasAccount == true)
+                        TextButton(
+                          onPressed: () {
+                            context.read<AuthCubit>().signOut();
+                          },
+                          child: const Text(
+                            'LogOut',
+                            style: TextStyle(
+                                fontSize: 18.0, color: AppColor.white),
+                          ),
+                        ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'About',
+                          style:
+                              TextStyle(fontSize: 18.0, color: AppColor.white),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              )),
           body: Container(
             height: double.maxFinite,
             width: double.maxFinite,
@@ -83,47 +140,51 @@ class _NoteScreenState extends State<NoteScreen> {
                         ],
                       ),
                     ),
-                    BlocBuilder<NotecubitCubit, NotecubitState>(
-                      builder: (context, state) {
-                        if (state is LoadNote) {
-                          return AnimatedOpacity(
-                            opacity: state.selections.isEmpty ? 0 : 1,
-                            duration: const Duration(milliseconds: 200),
-                            child: Container(
-                              padding: const EdgeInsets.all(4.0),
-                              width: MediaQuery.of(context).size.width,
-                              color: const Color(0XFF264653),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          cubit.clearSelections();
-                                        },
-                                        icon: const Icon(Icons.close),
-                                      ),
-                                      Text(
-                                        state.selections.length.toString(),
-                                        style: const TextStyle(fontSize: 18.0),
-                                      )
-                                    ],
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      cubit.deleteNote();
-                                    },
-                                    icon: const Icon(Icons.delete),
-                                  )
-                                ],
+                    Visibility(
+                      visible: false,
+                      child: BlocBuilder<NotecubitCubit, NotecubitState>(
+                        builder: (context, state) {
+                          if (state is LoadNote) {
+                            return AnimatedOpacity(
+                              opacity: state.selections.isEmpty ? 0 : 1,
+                              duration: const Duration(milliseconds: 200),
+                              child: Container(
+                                padding: const EdgeInsets.all(4.0),
+                                width: MediaQuery.of(context).size.width,
+                                color: const Color(0XFF264653),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            cubit.clearSelections();
+                                          },
+                                          icon: const Icon(Icons.close),
+                                        ),
+                                        Text(
+                                          state.selections.length.toString(),
+                                          style:
+                                              const TextStyle(fontSize: 18.0),
+                                        )
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        cubit.deleteNote();
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                        return const SizedBox();
-                      },
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
                     ),
                   ],
                 ),

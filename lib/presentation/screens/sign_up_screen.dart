@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notie/application/cubit/auth_cubit.dart';
 import 'package:notie/presentation/widgets/alt_button.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
@@ -39,142 +40,148 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<AuthCubit>();
-    return CustomStatusBar(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppColor.mainColor,
-        body: Container(
-          width: double.maxFinite,
-          height: double.maxFinite,
-          padding: const EdgeInsets.only(right: 15.0, left: 15, bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 100),
-              const Text(
-                'Sign up',
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is SignedIn) {
+          Navigator.pushReplacementNamed(context, Routes.home);
+        }
+      },
+      child: CustomStatusBar(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: AppColor.mainColor,
+          body: Container(
+            width: double.maxFinite,
+            height: double.maxFinite,
+            padding: const EdgeInsets.only(right: 15.0, left: 15, bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 100),
+                const Text(
+                  'Sign up',
+                  style: TextStyle(
+                    color: AppColor.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Form(
-                key: _formkey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: BorderTextField(
-                        hintText: 'Email',
-                        validator: validateEmail,
-                        controller: _emailCtrl,
+                const SizedBox(height: 15),
+                Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: BorderTextField(
+                          hintText: 'Email',
+                          validator: validateEmail,
+                          controller: _emailCtrl,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: BorderTextField(
-                        hintText: 'Password',
-                        validator: validatePassword,
-                        controller: _passwordCtrl,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: BorderTextField(
+                          hintText: 'Password',
+                          validator: validatePassword,
+                          controller: _passwordCtrl,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              AuthenticationButton(
-                onPressed: () async {
-                  final validate = _formkey.currentState!.validate();
-                  if (validate) {
-                    final result = await cubit.signUpWithEmail(
-                        _emailCtrl.text.trim(), _passwordCtrl.text.trim());
-
-                    if (result) {
-                      Navigator.pushNamed(context, Routes.home);
+                const SizedBox(height: 16),
+                AuthenticationButton(
+                  onPressed: () async {
+                    final validate = _formkey.currentState!.validate();
+                    if (validate) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      await cubit.signUpWithEmail(
+                          _emailCtrl.text.trim(), _passwordCtrl.text.trim());
                     }
-                  }
-                },
-                text: 'Sign up',
-              ),
-              Expanded(
-                flex: 6,
-                child: Row(
-                  children: const [
-                    Expanded(
-                        child: Divider(
-                      color: AppColor.white,
-                      thickness: 2.0,
-                    )),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'OR',
+                  },
+                  text: 'Sign up',
+                ),
+                Expanded(
+                  flex: 6,
+                  child: Row(
+                    children: const [
+                      Expanded(
+                          child: Divider(
+                        color: AppColor.white,
+                        thickness: 2.0,
+                      )),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'OR',
+                          style: TextStyle(color: AppColor.white),
+                        ),
+                      ),
+                      Expanded(
+                          child: Divider(
+                        color: AppColor.white,
+                        thickness: 2.0,
+                      )),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: AltButton(
+                    onPressed: () {},
+                    iconData: FontAwesomeIcons.google,
+                    text: 'Sign up with Google',
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: AltButton(
+                    onPressed: () {},
+                    iconData: FontAwesomeIcons.facebook,
+                    text: 'Sign up with Facebook',
+                  ),
+                ),
+                const SizedBox(height: 30.0),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.home);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColor.oranage.withOpacity(0.8),
+                      ),
+                      child: const Text(
+                        'Skip',
                         style: TextStyle(color: AppColor.white),
                       ),
                     ),
-                    Expanded(
-                        child: Divider(
-                      color: AppColor.white,
-                      thickness: 2.0,
-                    )),
-                  ],
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: AltButton(
-                  onPressed: () {},
-                  iconData: FontAwesomeIcons.google,
-                  text: 'Sign up with Google',
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                flex: 2,
-                child: AltButton(
-                  onPressed: () {},
-                  iconData: FontAwesomeIcons.facebook,
-                  text: 'Sign up with Facebook',
-                ),
-              ),
-              const SizedBox(height: 30.0),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.home);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColor.oranage.withOpacity(0.8),
-                    ),
+                const Spacer(),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.signIn);
+                    },
                     child: const Text(
-                      'Skip',
-                      style: TextStyle(color: AppColor.white),
+                      'Already have an account? Sign In',
+                      style: TextStyle(
+                        color: AppColor.white,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                ),
-              ),
-              const Spacer(),
-              Center(
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Already have an account? Sign In',
-                    style: TextStyle(
-                      color: AppColor.white,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

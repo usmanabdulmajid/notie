@@ -25,8 +25,9 @@ class FirebaseAuthImp implements IAuthentication {
   }
 
   @override
-  Future<void> signOut() async {
+  Future<bool> signOut() async {
     await firebaseAuth.signOut();
+    return firebaseAuth.currentUser == null;
   }
 
   @override

@@ -21,9 +21,9 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case signIn:
-        return MaterialPageRoute(builder: (_) => const SignUpScreen());
-      case signUp:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
+      case signUp:
+        return MaterialPageRoute(builder: (_) => const SignUpScreen());
       case createAccount:
         return MaterialPageRoute(builder: (_) => const CreateAccountScreen());
       case audio:
