@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:notie/domain/models/note.dart';
@@ -23,6 +25,10 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   Future<void> saveNote(Note note) async {
     final result = await noteRepository.add(note);
+    // FirestoreDataSource firestoreDataSource =
+    //     FirestoreDataSource(FirebaseFirestore.instance.collection('notes'));
+    // await firestoreDataSource.addNote(
+    //     note, FirebaseAuth.instance.currentUser!.uid);
     emit(SaveNote(result));
     if (result) {
       await loadNotes();

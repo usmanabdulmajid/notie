@@ -8,6 +8,7 @@ class Note {
   String? body;
   String? audioPath;
   bool? isSelected;
+  String noteId;
   int color;
   NoteType noteType;
   String date;
@@ -18,6 +19,7 @@ class Note {
     this.body,
     this.audioPath,
     this.isSelected,
+    required this.noteId,
     required this.color,
     required this.noteType,
     required this.date,
@@ -30,6 +32,7 @@ class Note {
       'body': body,
       'audioPath': audioPath,
       //'isSelected': isSelected,
+      'noteId': noteId,
       'color': color,
       'noteType': noteType.name,
       'date': date,
@@ -43,6 +46,7 @@ class Note {
       body: map['body'],
       audioPath: map['audioPath'],
       //isSelected: map['isSelected'],
+      noteId: map['noteId'],
       color: map['color'],
       noteType: ParseNoteType.fromString(map['noteType']),
       date: map['date'],
@@ -55,6 +59,7 @@ class Note {
       String? body,
       String? audioPath,
       bool? isSelected,
+      String? noteId,
       int? color,
       NoteType? noteType,
       String? date}) {
@@ -64,6 +69,7 @@ class Note {
       body: body ?? this.body,
       audioPath: audioPath ?? this.audioPath,
       isSelected: isSelected ?? this.isSelected,
+      noteId: noteId ?? this.noteId,
       color: color ?? this.color,
       noteType: noteType ?? this.noteType,
       date: date ?? this.date,

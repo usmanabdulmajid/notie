@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:notie/domain/models/note.dart';
 import 'package:notie/utils/enums.dart';
+import 'package:uuid/uuid.dart';
 
 mixin HelperMixin {
   bool nonEmptyNote(String title, String body, String audioPath) {
@@ -33,11 +34,13 @@ mixin HelperMixin {
     String? body,
     String? audioPath,
   }) {
+    Uuid uuid = const Uuid();
     final date = DateFormat.yMMMd().format(DateTime.now());
     Note note = Note(
         color: noteColor().value,
         noteType: noteType,
         date: date,
+        noteId: uuid.v4(),
         isSelected: false);
     if (noteType == NoteType.text) {
       note.title = title;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:notie/application/cubit/notecubit_cubit.dart';
 import 'package:notie/domain/models/note.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
@@ -89,6 +90,14 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                       ),
                       TopBarButton(
                         onPressed: () {
+                          if (widget.note != null) {
+                            final date =
+                                DateFormat.yMMMd().format(DateTime.now());
+                            widget.note!.title = _titleCtr.text;
+                            widget.note!.body = _bodyCtr.text;
+                            widget.note!.date = date;
+                            cubit.updateNote(widget.note as Note);
+                          }
                           if (_titleCtr.text.isNotEmpty ||
                               _bodyCtr.text.isNotEmpty) {
                             final note = setNote(
@@ -99,8 +108,8 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                             if (widget.note?.id == null) {
                               cubit.saveNote(note);
                             } else {
-                              note.id = widget.note?.id;
-                              cubit.updateNote(note);
+                              // note.id = widget.note?.id;
+                              // cubit.updateNote(note);
                             }
                           } else {
                             AppSnackBar.failure(

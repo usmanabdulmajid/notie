@@ -54,4 +54,9 @@ class FirebaseAuthImp implements IAuthentication {
       return false;
     }
   }
+
+  @override
+  String? userId() {
+    return firebaseAuth.currentUser?.uid;
+  }
 }

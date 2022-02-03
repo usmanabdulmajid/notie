@@ -140,51 +140,47 @@ class _NoteScreenState extends State<NoteScreen> {
                         ],
                       ),
                     ),
-                    Visibility(
-                      visible: false,
-                      child: BlocBuilder<NotecubitCubit, NotecubitState>(
-                        builder: (context, state) {
-                          if (state is LoadNote) {
-                            return AnimatedOpacity(
-                              opacity: state.selections.isEmpty ? 0 : 1,
-                              duration: const Duration(milliseconds: 200),
-                              child: Container(
-                                padding: const EdgeInsets.all(4.0),
-                                width: MediaQuery.of(context).size.width,
-                                color: const Color(0XFF264653),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            cubit.clearSelections();
-                                          },
-                                          icon: const Icon(Icons.close),
-                                        ),
-                                        Text(
-                                          state.selections.length.toString(),
-                                          style:
-                                              const TextStyle(fontSize: 18.0),
-                                        )
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        cubit.deleteNote();
-                                      },
-                                      icon: const Icon(Icons.delete),
-                                    )
-                                  ],
-                                ),
+                    BlocBuilder<NotecubitCubit, NotecubitState>(
+                      builder: (context, state) {
+                        if (state is LoadNote) {
+                          return AnimatedOpacity(
+                            opacity: state.selections.isEmpty ? 0 : 1,
+                            duration: const Duration(milliseconds: 200),
+                            child: Container(
+                              padding: const EdgeInsets.all(4.0),
+                              width: MediaQuery.of(context).size.width,
+                              color: const Color(0XFF264653),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          cubit.clearSelections();
+                                        },
+                                        icon: const Icon(Icons.close),
+                                      ),
+                                      Text(
+                                        state.selections.length.toString(),
+                                        style: const TextStyle(fontSize: 18.0),
+                                      )
+                                    ],
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      cubit.deleteNote();
+                                    },
+                                    icon: const Icon(Icons.delete),
+                                  )
+                                ],
                               ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
                     ),
                   ],
                 ),
