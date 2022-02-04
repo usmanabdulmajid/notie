@@ -22,15 +22,24 @@ class NoteRepository implements INoteRepository {
   }
 
   @override
-  Future<bool> delete(List<int> ids) async {
-    if (sl<FirebaseAuthImp>().userId() != null) {}
-    final result = await localDatasource.deleteNotes(ids);
+  Future<bool> delete(List<String> noteIds) async {
+    if (sl<FirebaseAuthImp>().userId() != null) {
+      for (var noteId in noteIds) {
+        remoteDatabase.deleteNote(noteId);
+      }
+    }
+    final result = await localDatasource.deleteNotes(noteIds);
     return result;
   }
 
   @override
   Future<List<Note>> load() async {
-    if (sl<FirebaseAuthImp>().userId() != null) {}
+    if (sl<FirebaseAuthImp>().userId() != null) {
+      final notes = await remoteDatabase.loadNotes();
+      for (var note in notes) {
+        await localDatasource.saveNote(note);
+      }
+    }
     final notes = await localDatasource.fetchNotes();
     return notes;
   }

@@ -98,8 +98,10 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                             widget.note!.date = date;
                             cubit.updateNote(widget.note as Note);
                           }
-                          if (_titleCtr.text.isNotEmpty ||
-                              _bodyCtr.text.isNotEmpty) {
+                          if ((_titleCtr.text.isNotEmpty ||
+                                  _bodyCtr.text.isNotEmpty) &&
+                              widget.note == null) {
+                            print('hhhh');
                             final note = setNote(
                                 noteType: NoteType.text,
                                 title: _titleCtr.text,

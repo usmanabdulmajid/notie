@@ -8,23 +8,23 @@ import 'package:provider/src/provider.dart';
 
 class TextNoteTile extends StatelessWidget {
   final Note note;
-  final List<int>? selections;
+  final List<String>? selections;
   const TextNoteTile({required this.note, this.selections, Key? key})
       : super(key: key);
-  bool get isSelected => selections!.contains(note.id);
+  bool get isSelected => selections!.contains(note.noteId);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        context.read<NotecubitCubit>().onLongPressedNote(note.id!);
+        context.read<NotecubitCubit>().onLongPressedNote(note.noteId);
       },
       onTap: () {
         final response = context.read<NotecubitCubit>().proceedNavigation();
         if (response) {
           Navigator.pushNamed(context, Routes.readNote, arguments: note);
         } else {
-          context.read<NotecubitCubit>().onPressedNote(note.id!);
+          context.read<NotecubitCubit>().onPressedNote(note.noteId);
         }
       },
       child: AnimatedContainer(

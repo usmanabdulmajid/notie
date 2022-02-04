@@ -15,7 +15,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   NotecubitCubit(this.noteRepository) : super(NoteLoading());
   bool noteSelection = false;
-  List<int> selectedNoteId = [];
+  List<String> selectedNoteId = [];
   Map<int, bool?> selectionMap = <int, bool?>{};
 
   Future<void> loadNotes() async {
@@ -42,6 +42,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
       if (result) {
         selectedNoteId.clear();
+        noteSelection = false;
         await loadNotes();
       }
     }
@@ -55,8 +56,6 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   }
 
   Future<void> updateNote(Note note) async {
-    final date = DateFormat.yMMMd().format(DateTime.now());
-    note.copywith(date: date);
     final result = await noteRepository.update(note);
     emit(UpdateNote(result));
     if (result) {
@@ -72,12 +71,12 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     }
   }
 
-  void onPressedNote(int id) {
+  void onPressedNote(String noteId) {
     if (noteSelection) {
-      if (selectedNoteId.contains(id)) {
-        selectedNoteId.remove(id);
+      if (selectedNoteId.contains(noteId)) {
+        selectedNoteId.remove(noteId);
       } else {
-        selectedNoteId.add(id);
+        selectedNoteId.add(noteId);
       }
       loadNotes();
       if (selectedNoteId.isEmpty) {
@@ -86,10 +85,10 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     }
   }
 
-  void onLongPressedNote(int id) {
-    if (!noteSelection || !selectedNoteId.contains(id)) {
+  void onLongPressedNote(String noteId) {
+    if (!noteSelection || !selectedNoteId.contains(noteId)) {
       noteSelection = true;
-      selectedNoteId.add(id);
+      selectedNoteId.add(noteId);
       loadNotes();
     }
   }
