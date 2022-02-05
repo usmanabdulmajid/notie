@@ -25,10 +25,6 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   Future<void> saveNote(Note note) async {
     final result = await noteRepository.add(note);
-    // FirestoreDataSource firestoreDataSource =
-    //     FirestoreDataSource(FirebaseFirestore.instance.collection('notes'));
-    // await firestoreDataSource.addNote(
-    //     note, FirebaseAuth.instance.currentUser!.uid);
     emit(SaveNote(result));
     if (result) {
       await loadNotes();
@@ -97,5 +93,9 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     noteSelection = false;
     selectedNoteId.clear();
     loadNotes();
+  }
+
+  void shareNote() async {
+    await noteRepository.shareNote(selectedNoteId[0]);
   }
 }

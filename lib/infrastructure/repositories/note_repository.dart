@@ -4,6 +4,7 @@ import 'package:notie/domain/usecases/iremote_database.dart';
 import 'package:notie/infrastructure/datasource/ilocal_datasource.dart';
 import 'package:notie/infrastructure/repositories/inote_repository.dart';
 import 'package:notie/injection_container.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NoteRepository implements INoteRepository {
   final ILocalDatasource localDatasource;
@@ -57,5 +58,13 @@ class NoteRepository implements INoteRepository {
     }
     final result = await localDatasource.updateNote(note);
     return result;
+  }
+
+  @override
+  Future<void> shareNote(String noteId) async {
+    Note note = await localDatasource.findbyNoteId(noteId);
+    note.title ??= '';
+    note.body ??= '';
+    Share.share(note.title! + '\n' + note.body!);
   }
 }

@@ -65,4 +65,13 @@ class SqlLocalDatasource implements ILocalDatasource {
         conflictAlgorithm: ConflictAlgorithm.replace);
     return result != 0;
   }
+
+  @override
+  Future<Note> findbyNoteId(String noteId) async {
+    final db = await database;
+    List<Map<String, dynamic>> result =
+        await db.query('note', where: 'noteId =?', whereArgs: [noteId]);
+    final note = Note.fromMap(result[0]);
+    return note;
+  }
 }

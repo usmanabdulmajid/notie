@@ -6,4 +6,5 @@ abstract class ILocalDatasource {
   Future<bool> deleteNotes(List<String> noteIds);
   Future<List<Note>> fetchNotes();
   Future<List<Note>> searchNotes(String title);
+  Future<Note> findbyNoteId(String noteId);
 }
