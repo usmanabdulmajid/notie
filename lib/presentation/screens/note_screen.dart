@@ -133,11 +133,12 @@ class _NoteScreenState extends State<NoteScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
+                          const Center(
                             child: DrawerHeader(
-                              child: Image.asset(
-                                'asset/images/notie_header.png',
-                                scale: 1.2,
+                              child: Text(
+                                'Notie',
+                                style: TextStyle(
+                                    fontSize: 80, color: AppColor.white),
                               ),
                             ),
                           ),

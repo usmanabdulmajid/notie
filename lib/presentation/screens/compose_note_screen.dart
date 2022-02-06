@@ -139,7 +139,7 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                   const SizedBox(height: 50),
                   TextField(
                     controller: _bodyCtr,
-                    style: const TextStyle(color: AppColor.white),
+                    style: const TextStyle(color: AppColor.white, fontSize: 25),
                     maxLines: null,
                     decoration: const InputDecoration.collapsed(
                       hintText: 'Type something....',

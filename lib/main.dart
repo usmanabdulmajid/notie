@@ -65,8 +65,7 @@ class MyApp extends StatelessWidget {
         title: 'Notie',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue, fontFamily: 'SupermercadoOne'),
         home: const LaunchScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),

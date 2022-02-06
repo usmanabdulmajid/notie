@@ -55,6 +55,7 @@ class ReadNoteScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 Text(
                   note.title!,
+                  maxLines: null,
                   style: const TextStyle(
                     fontSize: 30,
                     color: Colors.white60,
@@ -64,13 +65,13 @@ class ReadNoteScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   note.date,
-                  style: const TextStyle(color: Colors.white30),
+                  style: const TextStyle(color: Colors.white30, fontSize: 18),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   note.body!,
                   maxLines: null,
-                  style: const TextStyle(color: AppColor.white),
+                  style: const TextStyle(color: AppColor.white, fontSize: 30),
                 ),
               ],
             ),
