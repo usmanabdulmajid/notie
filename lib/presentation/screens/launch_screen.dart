@@ -13,7 +13,7 @@ class LaunchScreen extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoading) {
-          context.read<AuthCubit>().loadDetails();
+          //context.read<AuthCubit>().loadDetails();
         } else if (state is SignedIn) {
           Navigator.pushReplacementNamed(context, Routes.home);
         } else if (state is SignIn) {
@@ -25,12 +25,9 @@ class LaunchScreen extends StatelessWidget {
         if (state is AuthLoading) {
           context.read<AuthCubit>().loadDetails();
         }
-        return CustomStatusBar(
-          child: Scaffold(
-            backgroundColor: AppColor.mainColor,
-            body: Center(
-              child: Image.asset('asset/images/notie.png'),
-            ),
+        return Scaffold(
+          body: Center(
+            child: Image.asset('asset/images/notie.png'),
           ),
         );
       },

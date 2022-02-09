@@ -4,10 +4,15 @@ import 'package:notie/utils/app_color.dart';
 class BorderTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final String? errorText;
   final String hintText;
 
   const BorderTextField(
-      {Key? key, this.controller, this.validator, required this.hintText})
+      {Key? key,
+      this.controller,
+      this.validator,
+      required this.hintText,
+      this.errorText})
       : super(key: key);
 
   @override
@@ -24,9 +29,7 @@ class BorderTextField extends StatelessWidget {
         controller: controller,
         validator: validator,
         decoration: InputDecoration(
-          hintText: hintText,
-          border: InputBorder.none,
-        ),
+            hintText: hintText, border: InputBorder.none, errorText: errorText),
       ),
     );
   }

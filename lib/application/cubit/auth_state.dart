@@ -33,3 +33,31 @@ class AuthUser extends AuthState {
   @override
   List<Object> get props => [hasAccount];
 }
+
+class InvalidPassword extends AuthState {
+  final String message;
+  const InvalidPassword(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
+class InvalidUser extends AuthState {
+  final String message;
+  const InvalidUser(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
+class EmailAlreadyInUse extends AuthState {
+  final String message;
+  const EmailAlreadyInUse(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
+class PasswordIsWeak extends AuthState {
+  final String message;
+  const PasswordIsWeak(this.message);
+  @override
+  List<Object> get props => [message];
+}

@@ -46,28 +46,23 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
           Navigator.pushReplacementNamed(context, Routes.home);
         }
       },
-      child: CustomStatusBar(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: AppColor.mainColor,
-          body: Container(
-            width: double.maxFinite,
-            height: double.maxFinite,
-            padding: const EdgeInsets.only(right: 15.0, left: 15, bottom: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 100),
-                const Text(
-                  'Sign in',
-                  style: TextStyle(
-                    color: AppColor.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Form(
+      child: Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
+          children: [
+            const SizedBox(height: 100),
+            const Text(
+              'Sign in',
+              style: TextStyle(
+                color: AppColor.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+            const SizedBox(height: 50),
+            BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return Form(
                   key: _formKey,
                   child: Column(
                     children: [
@@ -75,93 +70,92 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
                         hintText: 'Email',
                         validator: validateEmail,
                         controller: _emailCtrl,
+                        errorText: state is InvalidUser ? state.message : null,
                       ),
                       const SizedBox(height: 30),
                       BorderTextField(
                         hintText: 'Password',
                         validator: validatePassword,
                         controller: _passwordCtrl,
+                        errorText:
+                            state is InvalidPassword ? state.message : null,
                       ),
                     ],
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 40),
+            AuthenticationButton(
+              onPressed: () async {
+                final validate = _formKey.currentState!.validate();
+                if (validate) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  await cubit.loginWithEmail(
+                      _emailCtrl.text, _passwordCtrl.text);
+                }
+              },
+              text: 'Sign in',
+            ),
+            Center(
+              child: TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Forgot Password',
+                  style: TextStyle(color: AppColor.white),
                 ),
-                const SizedBox(height: 40),
-                AuthenticationButton(
-                  onPressed: () async {
-                    final validate = _formKey.currentState!.validate();
-                    if (validate) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      await cubit.loginWithEmail(
-                          _emailCtrl.text, _passwordCtrl.text);
-                    }
-                  },
-                  text: 'Sign in',
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forgot Password',
-                      style: TextStyle(color: AppColor.white),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: const [
-                    Expanded(
-                        child: Divider(
-                      color: AppColor.white,
-                      thickness: 2.0,
-                    )),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'OR',
-                        style: TextStyle(color: AppColor.white),
-                      ),
-                    ),
-                    Expanded(
-                        child: Divider(
-                      color: AppColor.white,
-                      thickness: 2.0,
-                    )),
-                  ],
-                ),
-                const SizedBox(height: 30),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: const [
                 Expanded(
-                  child: AltButton(
-                    onPressed: () {},
-                    iconData: FontAwesomeIcons.google,
-                    text: 'continue with google',
+                    child: Divider(
+                  color: AppColor.white,
+                  thickness: 2.0,
+                )),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'OR',
+                    style: TextStyle(color: AppColor.white),
                   ),
                 ),
-                const SizedBox(height: 30),
                 Expanded(
-                  child: AltButton(
-                    onPressed: () {},
-                    iconData: FontAwesomeIcons.facebook,
-                    text: 'continue with facebook',
-                  ),
-                ),
-                const Spacer(),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.signUp);
-                    },
-                    child: const Text(
-                      'Don\'t have an account? Sign Up',
-                      style: TextStyle(
-                        color: AppColor.white,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                )
+                    child: Divider(
+                  color: AppColor.white,
+                  thickness: 2.0,
+                )),
               ],
             ),
-          ),
+            const SizedBox(height: 30),
+            AltButton(
+              onPressed: () {},
+              iconData: FontAwesomeIcons.google,
+              text: 'continue with google',
+            ),
+            const SizedBox(height: 30),
+            AltButton(
+              onPressed: () {},
+              iconData: FontAwesomeIcons.facebook,
+              text: 'continue with facebook',
+            ),
+            const Spacer(),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.signUp);
+                },
+                child: const Text(
+                  'Don\'t have an account? Sign Up',
+                  style: TextStyle(
+                    color: AppColor.white,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

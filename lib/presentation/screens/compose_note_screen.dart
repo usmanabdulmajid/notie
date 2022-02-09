@@ -65,89 +65,84 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
           }
         }
       },
-      child: CustomStatusBar(
-        child: Scaffold(
-          backgroundColor: AppColor.mainColor,
-          body: Padding(
-            padding:
-                const EdgeInsets.only(right: 15.0, left: 15.0, bottom: 20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: context.barHeight),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TopBarButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const ImageIcon(
-                          AssetImage('asset/images/ios_arrow.png'),
-                          color: AppColor.white,
-                          size: 16,
-                        ),
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(right: 15.0, left: 15.0, bottom: 20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: context.barHeight),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TopBarButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const ImageIcon(
+                        AssetImage('asset/images/ios_arrow.png'),
+                        color: AppColor.white,
+                        size: 16,
                       ),
-                      TopBarButton(
-                        onPressed: () {
-                          if (widget.note != null) {
-                            final date =
-                                DateFormat.yMMMd().format(DateTime.now());
-                            widget.note!.title = _titleCtr.text;
-                            widget.note!.body = _bodyCtr.text;
-                            widget.note!.date = date;
-                            cubit.updateNote(widget.note as Note);
-                          }
-                          if ((_titleCtr.text.isNotEmpty ||
-                                  _bodyCtr.text.isNotEmpty) &&
-                              widget.note == null) {
-                            print('hhhh');
-                            final note = setNote(
-                                noteType: NoteType.text,
-                                title: _titleCtr.text,
-                                body: _bodyCtr.text);
-
-                            if (widget.note?.id == null) {
-                              cubit.saveNote(note);
-                            } else {
-                              // note.id = widget.note?.id;
-                              // cubit.updateNote(note);
-                            }
-                          } else {
-                            AppSnackBar.failure(
-                                context, 'Note cannot be empty');
-                          }
-
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        child: const Text(
-                          'SAVE',
-                          style: TextStyle(color: AppColor.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  TextField(
-                    controller: _titleCtr,
-                    style: const TextStyle(fontSize: 30, color: AppColor.white),
-                    decoration: const InputDecoration.collapsed(
-                        hintText: 'Title',
-                        hintStyle:
-                            TextStyle(color: Colors.white60, fontSize: 30)),
-                  ),
-                  const SizedBox(height: 50),
-                  TextField(
-                    controller: _bodyCtr,
-                    style: const TextStyle(color: AppColor.white, fontSize: 25),
-                    maxLines: null,
-                    decoration: const InputDecoration.collapsed(
-                      hintText: 'Type something....',
-                      hintStyle: TextStyle(color: Colors.white60),
                     ),
+                    TopBarButton(
+                      onPressed: () {
+                        if (widget.note != null) {
+                          final date =
+                              DateFormat.yMMMd().format(DateTime.now());
+                          widget.note!.title = _titleCtr.text;
+                          widget.note!.body = _bodyCtr.text;
+                          widget.note!.date = date;
+                          cubit.updateNote(widget.note as Note);
+                        }
+                        if ((_titleCtr.text.isNotEmpty ||
+                                _bodyCtr.text.isNotEmpty) &&
+                            widget.note == null) {
+                          print('hhhh');
+                          final note = setNote(
+                              noteType: NoteType.text,
+                              title: _titleCtr.text,
+                              body: _bodyCtr.text);
+
+                          if (widget.note?.id == null) {
+                            cubit.saveNote(note);
+                          } else {
+                            // note.id = widget.note?.id;
+                            // cubit.updateNote(note);
+                          }
+                        } else {
+                          AppSnackBar.failure(context, 'Note cannot be empty');
+                        }
+
+                        FocusScope.of(context).requestFocus(FocusNode());
+                      },
+                      child: const Text(
+                        'SAVE',
+                        style: TextStyle(color: AppColor.white),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 50),
+                TextField(
+                  controller: _titleCtr,
+                  style: const TextStyle(fontSize: 30, color: AppColor.white),
+                  decoration: const InputDecoration.collapsed(
+                      hintText: 'Title',
+                      hintStyle:
+                          TextStyle(color: Colors.white60, fontSize: 30)),
+                ),
+                const SizedBox(height: 50),
+                TextField(
+                  controller: _bodyCtr,
+                  style: const TextStyle(color: AppColor.white, fontSize: 25),
+                  maxLines: null,
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Type something....',
+                    hintStyle: TextStyle(color: Colors.white60),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

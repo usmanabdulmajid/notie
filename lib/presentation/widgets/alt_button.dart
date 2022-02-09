@@ -19,6 +19,7 @@ class AltButton extends StatelessWidget {
       child: Container(
         width: double.maxFinite,
         //height: 45,
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: AppColor.white,
           borderRadius: BorderRadius.circular(8),

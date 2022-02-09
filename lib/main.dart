@@ -15,6 +15,7 @@ import 'package:notie/injection_container.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
 import 'package:notie/presentation/screens/launch_screen.dart';
 import 'package:notie/routes.dart';
+import 'package:notie/utils/app_color.dart';
 
 import 'application/cubit/recoder_cubit.dart';
 import 'application/usecases/recoder.dart';
@@ -59,13 +60,15 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthCubit(
             FirebaseAuthImp(FirebaseAuth.instance),
           ),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Notie',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primarySwatch: Colors.blue, fontFamily: 'SupermercadoOne'),
+            scaffoldBackgroundColor: AppColor.mainColor,
+            primarySwatch: Colors.blue,
+            fontFamily: 'SupermercadoOne'),
         home: const LaunchScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),

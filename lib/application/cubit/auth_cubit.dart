@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:notie/domain/exceptions/auth_exceptions.dart';
 import 'package:notie/domain/usecases/iauthentication.dart';
 
 part 'auth_state.dart';
@@ -28,20 +29,32 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signUpWithEmail(String email, String password) async {
-    final result =
-        await authentication.signUpWithEmail(email: email, password: password);
-    if (result) {
-      emit(SignedIn());
-      authState();
+    try {
+      final result = await authentication.signUpWithEmail(
+          email: email, password: password);
+      if (result) {
+        emit(SignedIn());
+        authState();
+      }
+    } on EmailAlreadyExist catch (e) {
+      emit(EmailAlreadyInUse(e.message));
+    } on WeakPassword catch (e) {
+      emit(PasswordIsWeak(e.message));
     }
   }
 
   Future<void> loginWithEmail(String email, String password) async {
-    final result =
-        await authentication.logInWithEmail(email: email, password: password);
-    if (result) {
-      emit(SignedIn());
-      authState();
+    try {
+      final result =
+          await authentication.logInWithEmail(email: email, password: password);
+      if (result) {
+        emit(SignedIn());
+        authState();
+      }
+    } on UserNotFound catch (e) {
+      emit(InvalidUser(e.message));
+    } on WrongPassWord catch (e) {
+      emit(InvalidPassword(e.message));
     }
   }
 
