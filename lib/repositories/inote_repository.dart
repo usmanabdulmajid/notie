@@ -1,4 +1,4 @@
-import 'package:notie/domain/models/note.dart';
+import 'package:notie/models/note.dart';
 
 abstract class INoteRepository {
   Future<bool> add(Note note);

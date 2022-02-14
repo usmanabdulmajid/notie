@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notie/domain/models/note.dart';
-import 'package:notie/presentation/screens/compose_note_screen.dart';
-import 'package:notie/presentation/widgets/custom_status_bar.dart';
+import 'package:notie/models/note.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/routes.dart';
 import 'package:notie/utils/app_color.dart';

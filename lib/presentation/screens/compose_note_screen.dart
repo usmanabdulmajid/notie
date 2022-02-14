@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:notie/application/cubit/notecubit_cubit.dart';
-import 'package:notie/domain/models/note.dart';
+import 'package:notie/cubit/notecubit_cubit.dart';
+import 'package:notie/models/note.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';

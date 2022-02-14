@@ -1,5 +1,5 @@
-import 'package:notie/domain/models/note.dart';
-import 'package:notie/infrastructure/datasource/ilocal_datasource.dart';
+import 'package:notie/models/note.dart';
+import 'package:notie/service/local_db/ilocal_datasource.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -77,8 +77,9 @@ class SqlLocalDatasource implements ILocalDatasource {
   Future<List<Note>> fetchNoteWithUserId(String userId) async {
     final db = await database;
     List<Map<String, dynamic>> result =
-        await db.query('note', where: 'userId =?', whereArgs: [userId]);
+        await db.query('note', where: 'userId = ?', whereArgs: [userId]);
     final notes = result.map((e) => Note.fromMap(e)).toList();
+    print('list here $notes');
     return notes;
   }
 

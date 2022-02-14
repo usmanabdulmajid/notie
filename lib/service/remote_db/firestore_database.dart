@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notie/application/usecases/firebase_authentication.dart';
-import 'package:notie/domain/models/note.dart';
-import 'package:notie/domain/usecases/iremote_database.dart';
+import 'package:notie/models/note.dart';
+import 'package:notie/service/auth/firebase_authentication.dart';
+import 'package:notie/service/remote_db/iremote_database.dart';
 import 'package:notie/injection_container.dart';
 
 class FirestoreDatabase implements IRemoteDatabase {

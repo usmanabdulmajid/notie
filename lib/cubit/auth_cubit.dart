@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:notie/domain/exceptions/auth_exceptions.dart';
-import 'package:notie/domain/usecases/iauthentication.dart';
+import 'package:notie/exceptions/auth_exceptions.dart';
+import 'package:notie/service/auth/iauthentication.dart';
 
 part 'auth_state.dart';
 

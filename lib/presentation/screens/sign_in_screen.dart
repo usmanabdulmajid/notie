@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:notie/application/cubit/auth_cubit.dart';
+import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/presentation/widgets/alt_button.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
 import 'package:notie/presentation/widgets/border_textfield.dart';
-import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/routes.dart';
 import 'package:notie/utils/app_color.dart';
 import 'package:notie/utils/validator.dart';
-import 'package:provider/src/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);

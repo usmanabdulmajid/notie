@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notie/application/cubit/notecubit_cubit.dart';
-import 'package:notie/domain/models/note.dart';
+import 'package:notie/cubit/notecubit_cubit.dart';
+import 'package:notie/models/note.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/screens/read_note_screen.dart';
 import 'package:notie/routes.dart';

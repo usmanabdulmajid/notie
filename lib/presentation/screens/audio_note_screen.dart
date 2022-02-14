@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:notie/application/cubit/notecubit_cubit.dart';
-import 'package:notie/application/cubit/recoder_cubit.dart';
+import 'package:notie/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/utils/app_color.dart';
@@ -22,7 +21,6 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
   @override
   void initState() {
     super.initState();
-    context.read<RecoderCubit>().init();
   }
 
   @override
@@ -33,7 +31,6 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<RecoderCubit>();
     final noteCubit = context.read<NotecubitCubit>();
     return Scaffold(
       body: Container(
@@ -73,21 +70,21 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
               ],
             ),
             const SizedBox(height: 50),
-            BlocBuilder<RecoderCubit, RecoderState>(
-              builder: (context, state) {
-                if (state is Recording) {
-                  return Text(
-                    state.timer.toString(),
-                    style:
-                        const TextStyle(fontSize: 40.0, color: AppColor.white),
-                  );
-                }
-                return const Text(
-                  '00:00:00',
-                  style: TextStyle(fontSize: 40.0, color: AppColor.white),
-                );
-              },
-            ),
+            // BlocBuilder<RecoderCubit, RecoderState>(
+            //   builder: (context, state) {
+            //     if (state is Recording) {
+            //       return Text(
+            //         state.timer.toString(),
+            //         style:
+            //             const TextStyle(fontSize: 40.0, color: AppColor.white),
+            //       );
+            //     }
+            //     return const Text(
+            //       '00:00:00',
+            //       style: TextStyle(fontSize: 40.0, color: AppColor.white),
+            //     );
+            //   },
+            // ),
             const SizedBox(height: 30),
             Icon(
               Icons.mic,
@@ -99,26 +96,14 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                    onPressed: () async {
-                      await cubit.record();
-                    },
-                    child: const Text('Record')),
+                    onPressed: () async {}, child: const Text('Record')),
+                ElevatedButton(
+                    onPressed: () async {}, child: const Text('Pause')),
+                ElevatedButton(
+                    onPressed: () async {}, child: const Text('Resume')),
                 ElevatedButton(
                     onPressed: () async {
-                      await cubit.pause();
-                    },
-                    child: const Text('Pause')),
-                ElevatedButton(
-                    onPressed: () async {
-                      await cubit.resume();
-                    },
-                    child: const Text('Resume')),
-                ElevatedButton(
-                    onPressed: () async {
-                      final _path = await cubit.stop();
-                      setState(() {
-                        _audioPath = _path;
-                      });
+                      setState(() {});
                     },
                     child: const Text('Stop')),
               ],

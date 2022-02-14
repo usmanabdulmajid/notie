@@ -1,8 +1,8 @@
-import 'package:notie/application/usecases/firebase_authentication.dart';
-import 'package:notie/domain/models/note.dart';
-import 'package:notie/domain/usecases/iremote_database.dart';
-import 'package:notie/infrastructure/datasource/ilocal_datasource.dart';
-import 'package:notie/infrastructure/repositories/inote_repository.dart';
+import 'package:notie/models/note.dart';
+import 'package:notie/repositories/inote_repository.dart';
+import 'package:notie/service/auth/firebase_authentication.dart';
+import 'package:notie/service/local_db/ilocal_datasource.dart';
+import 'package:notie/service/remote_db/iremote_database.dart';
 import 'package:notie/injection_container.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -18,7 +18,7 @@ class NoteRepository implements INoteRepository {
     if (sl<FirebaseAuthImp>().userId() != null) {
       remoteDatabase.addNote(note);
     }
-    final result = localDatasource.saveNote(note);
+    final result = await localDatasource.saveNote(note);
     return result;
   }
 
@@ -30,6 +30,7 @@ class NoteRepository implements INoteRepository {
       }
     }
     final result = await localDatasource.deleteNotes(noteIds);
+
     return result;
   }
 
@@ -75,6 +76,7 @@ class NoteRepository implements INoteRepository {
     //   localDatasource.saveNote(note);
     // }
     final notes = await localDatasource.fetchNoteWithUserId(userId);
+
     return notes;
   }
 

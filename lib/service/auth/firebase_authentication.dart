@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notie/domain/exceptions/auth_exceptions.dart';
-import 'package:notie/domain/usecases/iauthentication.dart';
+import 'package:notie/exceptions/auth_exceptions.dart';
+import 'package:notie/service/auth/iauthentication.dart';
 
 class FirebaseAuthImp implements IAuthentication {
   final FirebaseAuth firebaseAuth;

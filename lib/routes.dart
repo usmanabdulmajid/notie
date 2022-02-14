@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notie/domain/models/note.dart';
+import 'package:notie/models/note.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
 import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/screens/note_screen.dart';

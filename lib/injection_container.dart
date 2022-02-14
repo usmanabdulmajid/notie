@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:notie/application/usecases/firebase_authentication.dart';
+import 'package:notie/service/auth/firebase_authentication.dart';
 
 final sl = GetIt.instance;
 
