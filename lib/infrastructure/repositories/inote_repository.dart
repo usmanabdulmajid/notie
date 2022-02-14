@@ -7,4 +7,6 @@ abstract class INoteRepository {
   Future<List<Note>> search(String title);
   Future<bool> delete(List<String> ids);
   Future<void> shareNote(String noteId);
+  Future<List<Note>> loadByUserId(String userId);
+  Future<void> resetTable();
 }

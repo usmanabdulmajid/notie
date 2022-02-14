@@ -4,8 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:notie/application/usecases/firebase_authentication.dart';
 import 'package:notie/domain/models/note.dart';
 import 'package:notie/infrastructure/repositories/inote_repository.dart';
+import 'package:notie/injection_container.dart';
 import 'package:notie/utils/enums.dart';
 
 part 'notecubit_state.dart';
@@ -16,11 +18,18 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   NotecubitCubit(this.noteRepository) : super(NoteLoading());
   bool noteSelection = false;
   List<String> selectedNoteId = [];
-  Map<int, bool?> selectionMap = <int, bool?>{};
 
   Future<void> loadNotes() async {
+    if (sl<FirebaseAuthImp>().userId() != null) {
+      final notes =
+          await noteRepository.loadByUserId(sl<FirebaseAuthImp>().userId()!);
+      print('here ${notes.length}');
+      emit(LoadNote(notes, selections: selectedNoteId));
+      return;
+    }
     final notes = await noteRepository.load();
     emit(LoadNote(notes, selections: selectedNoteId));
+    print('there ${notes.length}');
   }
 
   Future<void> saveNote(Note note) async {
@@ -97,5 +106,9 @@ class NotecubitCubit extends Cubit<NotecubitState> {
 
   void shareNote() async {
     await noteRepository.shareNote(selectedNoteId[0]);
+  }
+
+  void resetTable() async {
+    await noteRepository.resetTable();
   }
 }

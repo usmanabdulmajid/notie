@@ -7,9 +7,8 @@ class SqlLocalDatasource implements ILocalDatasource {
   Future<Database> _initializeDb() async {
     String path = join(await getDatabasesPath(), 'note_db');
     var noteDb = openDatabase(path, version: 1, onCreate: (db, version) {
-      //id INTEGER PRIMARY KEY,
       db.execute(
-          'CREATE TABLE note(noteId TEXT UNIQUE, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT, audioPath TEXT)');
+          'CREATE TABLE note(noteId TEXT UNIQUE, userId TEXT, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT, audioPath TEXT)');
     });
     return noteDb;
   }
@@ -39,8 +38,7 @@ class SqlLocalDatasource implements ILocalDatasource {
   @override
   Future<bool> saveNote(Note note) async {
     final db = await database;
-    var result = await db.insert('note', note.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    var result = await db.insert('note', note.toMap());
     return result != 0;
   }
 
@@ -73,5 +71,21 @@ class SqlLocalDatasource implements ILocalDatasource {
         await db.query('note', where: 'noteId =?', whereArgs: [noteId]);
     final note = Note.fromMap(result[0]);
     return note;
+  }
+
+  @override
+  Future<List<Note>> fetchNoteWithUserId(String userId) async {
+    final db = await database;
+    List<Map<String, dynamic>> result =
+        await db.query('note', where: 'userId =?', whereArgs: [userId]);
+    final notes = result.map((e) => Note.fromMap(e)).toList();
+    return notes;
+  }
+
+  @override
+  Future<bool> resetNoteTable() async {
+    final db = await database;
+    final result = await db.delete('note', where: null);
+    return result != 0;
   }
 }

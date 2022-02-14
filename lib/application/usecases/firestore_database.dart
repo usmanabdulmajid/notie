@@ -23,7 +23,7 @@ class FirestoreDatabase implements IRemoteDatabase {
     try {
       await collection.doc(noteId).delete();
     } catch (e) {
-      print('zangetsu $e');
+      print('delete err0r $e');
     }
   }
 

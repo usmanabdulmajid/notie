@@ -166,6 +166,7 @@ class _NoteScreenState extends State<NoteScreen> {
                         TextButton(
                           onPressed: () {
                             context.read<AuthCubit>().signOut();
+                            context.read<NotecubitCubit>().resetTable();
                           },
                           child: const Text(
                             'LogOut',

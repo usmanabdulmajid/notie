@@ -67,4 +67,19 @@ class NoteRepository implements INoteRepository {
     note.body ??= '';
     Share.share(note.title! + '\n' + note.body!);
   }
+
+  @override
+  Future<List<Note>> loadByUserId(String userId) async {
+    // var notes = await remoteDatabase.loadNotes();
+    // for (var note in notes) {
+    //   localDatasource.saveNote(note);
+    // }
+    final notes = await localDatasource.fetchNoteWithUserId(userId);
+    return notes;
+  }
+
+  @override
+  Future<void> resetTable() async {
+    await localDatasource.resetNoteTable();
+  }
 }

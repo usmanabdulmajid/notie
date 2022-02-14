@@ -37,11 +37,11 @@ mixin HelperMixin {
     Uuid uuid = const Uuid();
     final date = DateFormat.yMMMd().format(DateTime.now());
     Note note = Note(
-        color: noteColor().value,
-        noteType: noteType,
-        date: date,
-        noteId: uuid.v4(),
-        isSelected: false);
+      color: noteColor().value,
+      noteType: noteType,
+      date: date,
+      noteId: uuid.v4(),
+    );
     if (noteType == NoteType.text) {
       note.title = title;
       note.body = body;

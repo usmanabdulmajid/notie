@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:notie/utils/enums.dart';
 
 class Note {
@@ -7,7 +5,7 @@ class Note {
   String? title;
   String? body;
   String? audioPath;
-  bool? isSelected;
+  String? userId;
   String noteId;
   int color;
   NoteType noteType;
@@ -18,7 +16,7 @@ class Note {
     this.title,
     this.body,
     this.audioPath,
-    this.isSelected,
+    this.userId,
     required this.noteId,
     required this.color,
     required this.noteType,
@@ -31,7 +29,7 @@ class Note {
       'title': title,
       'body': body,
       'audioPath': audioPath,
-      //'isSelected': isSelected,
+      'userId': userId,
       'noteId': noteId,
       'color': color,
       'noteType': noteType.name,
@@ -45,7 +43,7 @@ class Note {
       title: map['title'],
       body: map['body'],
       audioPath: map['audioPath'],
-      //isSelected: map['isSelected'],
+      userId: map['userId'],
       noteId: map['noteId'],
       color: map['color'],
       noteType: ParseNoteType.fromString(map['noteType']),
@@ -58,7 +56,6 @@ class Note {
       String? title,
       String? body,
       String? audioPath,
-      bool? isSelected,
       String? noteId,
       int? color,
       NoteType? noteType,
@@ -68,7 +65,6 @@ class Note {
       title: title ?? this.title,
       body: body ?? this.body,
       audioPath: audioPath ?? this.audioPath,
-      isSelected: isSelected ?? this.isSelected,
       noteId: noteId ?? this.noteId,
       color: color ?? this.color,
       noteType: noteType ?? this.noteType,
