@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:notie/models/note.dart';
-import 'package:notie/utils/enums.dart';
+import 'package:notie/common/utils/enums.dart';
 import 'package:uuid/uuid.dart';
 
 mixin HelperMixin {

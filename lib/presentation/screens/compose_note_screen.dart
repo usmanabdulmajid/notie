@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:notie/common/utils/app_color.dart';
+import 'package:notie/common/utils/enums.dart';
+import 'package:notie/common/utils/notehelper_mixin.dart';
 import 'package:notie/cubit/notecubit_cubit.dart';
 import 'package:notie/models/note.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
-import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/utils/app_color.dart';
-import 'package:notie/utils/enums.dart';
-import 'package:notie/utils/extensions.dart';
-import 'package:notie/utils/notehelper_mixin.dart';
-import 'package:provider/provider.dart';
+import 'package:notie/common/utils/extensions.dart';
 
 class ComposeNoteScreen extends StatefulWidget {
   final Note? note;

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notie/common/utils/app_color.dart';
 import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/cubit/notecubit_cubit.dart';
 import 'package:notie/repositories/note_repository.dart';
@@ -12,7 +13,6 @@ import 'package:notie/service/remote_db/firestore_database.dart';
 import 'package:notie/injection_container.dart';
 import 'package:notie/presentation/screens/launch_screen.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/utils/app_color.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

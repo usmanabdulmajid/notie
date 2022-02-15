@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:notie/models/note.dart';
 import 'package:notie/presentation/widgets/top_bar_buttom.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/utils/app_color.dart';
-import 'package:notie/utils/extensions.dart';
+import 'package:notie/common/utils/app_color.dart';
+import 'package:notie/common/utils/extensions.dart';
 
 class ReadNoteScreen extends StatelessWidget {
   final Note note;

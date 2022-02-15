@@ -1,14 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:notie/models/note.dart';
 import 'package:notie/repositories/inote_repository.dart';
 import 'package:notie/service/auth/firebase_authentication.dart';
 import 'package:notie/injection_container.dart';
-import 'package:notie/utils/enums.dart';
 
 part 'notecubit_state.dart';
 

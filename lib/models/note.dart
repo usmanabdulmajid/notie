@@ -1,4 +1,4 @@
-import 'package:notie/utils/enums.dart';
+import 'package:notie/common/utils/enums.dart';
 
 class Note {
   int? id;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notie/models/note.dart';
-import 'package:notie/utils/app_color.dart';
+import 'package:notie/common/utils/app_color.dart';
 
 class AudioNoteTile extends StatefulWidget {
   final Note note;

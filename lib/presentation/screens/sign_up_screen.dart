@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/presentation/widgets/alt_button.dart';
 import 'package:notie/presentation/widgets/authentication_button.dart';
 import 'package:notie/presentation/widgets/border_textfield.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/utils/app_color.dart';
-import 'package:notie/utils/validator.dart';
+import 'package:notie/common/utils/app_color.dart';
+import 'package:notie/common/utils/validator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -44,135 +46,147 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
           Navigator.pushReplacementNamed(context, Routes.home);
         }
       },
-      child: Scaffold(
-        body: ListView(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0),
-          children: [
-            const SizedBox(height: 100),
-            const Text(
-              'Sign up',
-              style: TextStyle(
-                color: AppColor.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-              ),
-            ),
-            const SizedBox(height: 15),
-            BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) {
-                return Form(
-                  key: _formkey,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: BorderTextField(
-                          hintText: 'Email',
-                          validator: validateEmail,
-                          controller: _emailCtrl,
-                          errorText:
-                              state is EmailAlreadyInUse ? state.message : null,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: BorderTextField(
-                          hintText: 'Password',
-                          validator: validatePassword,
-                          controller: _passwordCtrl,
-                          errorText:
-                              state is PasswordIsWeak ? state.message : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            AuthenticationButton(
-              onPressed: () async {
-                final validate = _formkey.currentState!.validate();
-                if (validate) {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  await cubit.signUpWithEmail(
-                      _emailCtrl.text.trim(), _passwordCtrl.text.trim());
-                }
-              },
-              text: 'Sign up',
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: const [
-                Expanded(
-                    child: Divider(
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        child: Scaffold(
+          body: ListView(
+            padding:
+                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0),
+            children: [
+              const SizedBox(height: 100),
+              const Text(
+                'Sign up',
+                style: TextStyle(
                   color: AppColor.white,
-                  thickness: 2.0,
-                )),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'OR',
-                    style: TextStyle(color: AppColor.white),
-                  ),
-                ),
-                Expanded(
-                    child: Divider(
-                  color: AppColor.white,
-                  thickness: 2.0,
-                )),
-              ],
-            ),
-            const SizedBox(height: 20),
-            AltButton(
-              onPressed: () {},
-              iconData: FontAwesomeIcons.google,
-              text: 'Sign up with Google',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            AltButton(
-              onPressed: () {},
-              iconData: FontAwesomeIcons.facebook,
-              text: 'Sign up with Facebook',
-            ),
-            const SizedBox(height: 30.0),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.home);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColor.oranage.withOpacity(0.8),
-                  ),
-                  child: const Text(
-                    'Skip',
-                    style: TextStyle(color: AppColor.white),
-                  ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ),
               ),
-            ),
-            const Spacer(),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.signIn);
+              const SizedBox(height: 15),
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  return Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: BorderTextField(
+                            hintText: 'Email',
+                            validator: validateEmail,
+                            controller: _emailCtrl,
+                            errorText: state is EmailAlreadyInUse
+                                ? state.message
+                                : null,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: BorderTextField(
+                            hintText: 'Password',
+                            validator: validatePassword,
+                            controller: _passwordCtrl,
+                            errorText:
+                                state is PasswordIsWeak ? state.message : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
-                child: const Text(
-                  'Already have an account? Sign In',
-                  style: TextStyle(
+              ),
+              const SizedBox(height: 16),
+              AuthenticationButton(
+                onPressed: () async {
+                  final validate = _formkey.currentState!.validate();
+                  if (validate) {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    context.loaderOverlay.show(
+                        widget: const Center(
+                      child: SpinKitFadingCircle(
+                        color: AppColor.oranage,
+                      ),
+                    ));
+                    await cubit.signUpWithEmail(
+                        _emailCtrl.text.trim(), _passwordCtrl.text.trim());
+                    context.loaderOverlay.hide();
+                  }
+                },
+                text: 'Sign up',
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: const [
+                  Expanded(
+                      child: Divider(
                     color: AppColor.white,
-                    decoration: TextDecoration.underline,
+                    thickness: 2.0,
+                  )),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'OR',
+                      style: TextStyle(color: AppColor.white),
+                    ),
+                  ),
+                  Expanded(
+                      child: Divider(
+                    color: AppColor.white,
+                    thickness: 2.0,
+                  )),
+                ],
+              ),
+              const SizedBox(height: 20),
+              AltButton(
+                onPressed: () {},
+                iconData: FontAwesomeIcons.google,
+                text: 'Sign up with Google',
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              AltButton(
+                onPressed: () {},
+                iconData: FontAwesomeIcons.facebook,
+                text: 'Sign up with Facebook',
+              ),
+              const SizedBox(height: 30.0),
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.home);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColor.oranage.withOpacity(0.8),
+                    ),
+                    child: const Text(
+                      'Skip',
+                      style: TextStyle(color: AppColor.white),
+                    ),
                   ),
                 ),
               ),
-            )
-          ],
+              const Spacer(),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.signIn);
+                  },
+                  child: const Text(
+                    'Already have an account? Sign In',
+                    style: TextStyle(
+                      color: AppColor.white,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

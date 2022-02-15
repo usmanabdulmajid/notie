@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notie/utils/app_color.dart';
+import 'package:notie/common/utils/app_color.dart';
 
 class AltButton extends StatelessWidget {
   final VoidCallback onPressed;

@@ -71,11 +71,11 @@ class NoteRepository implements INoteRepository {
 
   @override
   Future<List<Note>> loadByUserId(String userId) async {
-    // var notes = await remoteDatabase.loadNotes();
-    // for (var note in notes) {
-    //   localDatasource.saveNote(note);
-    // }
-    final notes = await localDatasource.fetchNoteWithUserId(userId);
+    var notes = await remoteDatabase.loadNotes();
+    for (var note in notes) {
+      localDatasource.saveNote(note);
+    }
+    notes = await localDatasource.fetchNoteWithUserId(userId);
 
     return notes;
   }

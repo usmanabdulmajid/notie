@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notie/common/utils/app_color.dart';
 import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/screens/audio_note_screen.dart';
@@ -13,9 +14,9 @@ import 'package:notie/presentation/widgets/audio_note_tile.dart';
 import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/text_note_tile.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/utils/app_color.dart';
-import 'package:notie/utils/enums.dart';
-import 'package:notie/utils/extensions.dart';
+import 'package:notie/common/utils/app_color.dart';
+import 'package:notie/common/utils/enums.dart';
+import 'package:notie/common/utils/extensions.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({Key? key}) : super(key: key);
