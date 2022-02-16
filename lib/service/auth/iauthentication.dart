@@ -6,5 +6,6 @@ abstract class IAuthentication {
   String? userId();
   Future<bool> authPersistState();
   Future<bool> signInWithGoogle();
+  Future<bool> signInWithFacebook();
   Future<bool> signOut();
 }

@@ -155,7 +155,9 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
                 height: 15,
               ),
               AltButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await cubit.facebookSignIn();
+                },
                 iconData: FontAwesomeIcons.facebook,
                 text: 'Sign up with Facebook',
               ),

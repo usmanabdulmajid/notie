@@ -66,6 +66,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> facebookSignIn() async {
+    final result = await authentication.signInWithFacebook();
+    if (result) {
+      emit(SignedIn());
+      authState();
+    }
+  }
+
   Future<void> signOut() async {
     final result = await authentication.signOut();
     if (result) {

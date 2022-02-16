@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notie/common/exceptions/auth_exceptions.dart';
 import 'package:notie/service/auth/iauthentication.dart';
@@ -49,6 +50,15 @@ class FirebaseAuthImp implements IAuthentication {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+    await firebaseAuth.signInWithCredential(credential);
+    return firebaseAuth.currentUser != null;
+  }
+
+  @override
+  Future<bool> signInWithFacebook() async {
+    final loginResult = await FacebookAuth.instance.login();
+    final credential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
     await firebaseAuth.signInWithCredential(credential);
     return firebaseAuth.currentUser != null;
   }
