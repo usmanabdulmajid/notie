@@ -16,6 +16,19 @@ class NotecubitCubit extends Cubit<NotecubitState> {
   List<String> selectedNoteId = [];
 
   Future<void> loadNotes() async {
+    emit(NoteLoading());
+    if (sl<FirebaseAuthImp>().userId() != null) {
+      final notes =
+          await noteRepository.loadByUserId(sl<FirebaseAuthImp>().userId()!);
+
+      emit(LoadNote(notes, selections: selectedNoteId));
+      return;
+    }
+    final notes = await noteRepository.load();
+    emit(LoadNote(notes, selections: selectedNoteId));
+  }
+
+  void updateViewWithoutLoading() async {
     if (sl<FirebaseAuthImp>().userId() != null) {
       final notes =
           await noteRepository.loadByUserId(sl<FirebaseAuthImp>().userId()!);
@@ -81,7 +94,7 @@ class NotecubitCubit extends Cubit<NotecubitState> {
       } else {
         selectedNoteId.add(noteId);
       }
-      loadNotes();
+      updateViewWithoutLoading();
       if (selectedNoteId.isEmpty) {
         noteSelection = false;
       }
@@ -92,14 +105,14 @@ class NotecubitCubit extends Cubit<NotecubitState> {
     if (!noteSelection || !selectedNoteId.contains(noteId)) {
       noteSelection = true;
       selectedNoteId.add(noteId);
-      loadNotes();
+      updateViewWithoutLoading();
     }
   }
 
   void clearSelections() {
     noteSelection = false;
     selectedNoteId.clear();
-    loadNotes();
+    updateViewWithoutLoading();
   }
 
   void shareNote() async {

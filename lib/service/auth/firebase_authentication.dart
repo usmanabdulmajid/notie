@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notie/common/exceptions/auth_exceptions.dart';
 import 'package:notie/service/auth/iauthentication.dart';
 
@@ -41,9 +42,15 @@ class FirebaseAuthImp implements IAuthentication {
   }
 
   @override
-  Future<bool> signInWithGoogle() {
-    // TODO: implement signInWithGoogle
-    throw UnimplementedError();
+  Future<bool> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    final googleAuth = await googleUser?.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+    await firebaseAuth.signInWithCredential(credential);
+    return firebaseAuth.currentUser != null;
   }
 
   @override

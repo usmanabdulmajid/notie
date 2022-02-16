@@ -142,7 +142,16 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
               ),
               const SizedBox(height: 30),
               AltButton(
-                onPressed: () {},
+                onPressed: () async {
+                  context.loaderOverlay.show(
+                      widget: const Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColor.oranage,
+                    ),
+                  ));
+                  await cubit.googleSignIn();
+                  context.loaderOverlay.hide();
+                },
                 iconData: FontAwesomeIcons.google,
                 text: 'continue with google',
               ),

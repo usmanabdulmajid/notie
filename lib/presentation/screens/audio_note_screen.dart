@@ -23,7 +23,6 @@ class _AudioNoteScreenState extends State<AudioNoteScreen> with HelperMixin {
 
   @override
   void dispose() {
-    //context.read<RecoderCubit>().close();
     super.dispose();
   }
 

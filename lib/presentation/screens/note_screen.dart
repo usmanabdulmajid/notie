@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/common/utils/app_color.dart';
@@ -227,7 +228,8 @@ class _NoteScreenState extends State<NoteScreen> {
                     const SizedBox(height: 20),
                     if (state is NoteLoading)
                       const Expanded(
-                          child: Center(child: CircularProgressIndicator())),
+                          child: Center(
+                              child: SpinKitCircle(color: AppColor.white))),
                     if (state is SaveNote) const SizedBox(),
                     if (state is DeleteNote) const SizedBox(),
                     if (state is UpdateNote) const SizedBox(),

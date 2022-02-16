@@ -58,6 +58,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> googleSignIn() async {
+    final result = await authentication.signInWithGoogle();
+    if (result) {
+      emit(SignedIn());
+      authState();
+    }
+  }
+
   Future<void> signOut() async {
     final result = await authentication.signOut();
     if (result) {

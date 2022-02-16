@@ -138,7 +138,16 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
               ),
               const SizedBox(height: 20),
               AltButton(
-                onPressed: () {},
+                onPressed: () async {
+                  context.loaderOverlay.show(
+                      widget: const Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColor.oranage,
+                    ),
+                  ));
+                  await cubit.googleSignIn();
+                  context.loaderOverlay.hide();
+                },
                 iconData: FontAwesomeIcons.google,
                 text: 'Sign up with Google',
               ),
