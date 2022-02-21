@@ -4,7 +4,6 @@ class Note {
   int? id;
   String? title;
   String? body;
-  String? audioPath;
   String? userId;
   String noteId;
   int color;
@@ -15,7 +14,6 @@ class Note {
     this.id,
     this.title,
     this.body,
-    this.audioPath,
     this.userId,
     required this.noteId,
     required this.color,
@@ -28,7 +26,6 @@ class Note {
       //'id': id,
       'title': title,
       'body': body,
-      'audioPath': audioPath,
       'userId': userId,
       'noteId': noteId,
       'color': color,
@@ -42,7 +39,6 @@ class Note {
       id: map['id'],
       title: map['title'],
       body: map['body'],
-      audioPath: map['audioPath'],
       userId: map['userId'],
       noteId: map['noteId'],
       color: map['color'],
@@ -55,7 +51,6 @@ class Note {
       {int? id,
       String? title,
       String? body,
-      String? audioPath,
       String? noteId,
       int? color,
       NoteType? noteType,
@@ -64,7 +59,6 @@ class Note {
       id: id ?? this.id,
       title: title ?? this.title,
       body: body ?? this.body,
-      audioPath: audioPath ?? this.audioPath,
       noteId: noteId ?? this.noteId,
       color: color ?? this.color,
       noteType: noteType ?? this.noteType,

@@ -8,5 +8,6 @@ abstract class ILocalDatasource {
   Future<List<Note>> searchNotes(String title);
   Future<Note> findbyNoteId(String noteId);
   Future<List<Note>> fetchNoteWithUserId(String userId);
+  Future<List<Note>> searchNoteByUserId(String title, String userId);
   Future<bool> resetNoteTable();
 }

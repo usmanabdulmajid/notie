@@ -7,15 +7,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/common/utils/app_color.dart';
 import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/cubit/notecubit_cubit.dart';
-import 'package:notie/presentation/screens/audio_note_screen.dart';
-import 'package:notie/presentation/screens/compose_note_screen.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
-import 'package:notie/presentation/widgets/appbar_tool.dart';
 import 'package:notie/presentation/widgets/audio_note_tile.dart';
-import 'package:notie/presentation/widgets/custom_status_bar.dart';
 import 'package:notie/presentation/widgets/text_note_tile.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/common/utils/app_color.dart';
 import 'package:notie/common/utils/enums.dart';
 import 'package:notie/common/utils/extensions.dart';
 
@@ -256,10 +251,6 @@ class _NoteScreenState extends State<NoteScreen> {
                               crossAxisCount: 2,
                             ),
                             itemBuilder: (context, index) {
-                              if (state.notes[index].noteType ==
-                                  NoteType.audio) {
-                                return AudioNoteTile(note: state.notes[index]);
-                              }
                               return TextNoteTile(
                                   note: state.notes[index],
                                   selections: state.selections);

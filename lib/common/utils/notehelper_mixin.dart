@@ -48,7 +48,6 @@ mixin HelperMixin {
     } else {
       final time = DateTime.now();
       note.title ??= 'voice note';
-      note.audioPath = audioPath! + '/$time';
     }
 
     return note;

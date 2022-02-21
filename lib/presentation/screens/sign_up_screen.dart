@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
             padding:
                 const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0),
             children: [
-              const SizedBox(height: 100),
+              const SizedBox(height: 70),
               const Text(
                 'Sign up',
                 style: TextStyle(
@@ -62,40 +62,34 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
                   fontSize: 30,
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
                   return Form(
                     key: _formkey,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: BorderTextField(
-                            hintText: 'Email',
-                            validator: validateEmail,
-                            controller: _emailCtrl,
-                            errorText: state is EmailAlreadyInUse
-                                ? state.message
-                                : null,
-                          ),
+                        BorderTextField(
+                          hintText: 'Email',
+                          validator: validateEmail,
+                          controller: _emailCtrl,
+                          errorText:
+                              state is EmailAlreadyInUse ? state.message : null,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: BorderTextField(
-                            hintText: 'Password',
-                            validator: validatePassword,
-                            controller: _passwordCtrl,
-                            errorText:
-                                state is PasswordIsWeak ? state.message : null,
-                          ),
+                        const SizedBox(height: 30),
+                        BorderTextField(
+                          hintText: 'Password',
+                          validator: validatePassword,
+                          controller: _passwordCtrl,
+                          errorText:
+                              state is PasswordIsWeak ? state.message : null,
                         ),
                       ],
                     ),
                   );
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 40),
               AuthenticationButton(
                 onPressed: () async {
                   final validate = _formkey.currentState!.validate();
@@ -151,12 +145,17 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
                 iconData: FontAwesomeIcons.google,
                 text: 'Sign up with Google',
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 30),
               AltButton(
                 onPressed: () async {
+                  context.loaderOverlay.show(
+                      widget: const Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColor.oranage,
+                    ),
+                  ));
                   await cubit.facebookSignIn();
+                  context.loaderOverlay.hide();
                 },
                 iconData: FontAwesomeIcons.facebook,
                 text: 'Sign up with Facebook',
@@ -181,7 +180,6 @@ class _SignUpScreenState extends State<SignUpScreen> with Validator {
                   ),
                 ),
               ),
-              const Spacer(),
               Center(
                 child: TextButton(
                   onPressed: () {

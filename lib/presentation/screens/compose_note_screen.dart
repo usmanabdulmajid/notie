@@ -96,7 +96,6 @@ class _ComposeNoteScreenState extends State<ComposeNoteScreen>
                         if ((_titleCtr.text.isNotEmpty ||
                                 _bodyCtr.text.isNotEmpty) &&
                             widget.note == null) {
-                          print('hhhh');
                           final note = setNote(
                               noteType: NoteType.text,
                               title: _titleCtr.text,

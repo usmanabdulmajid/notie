@@ -53,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
             padding:
                 const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
             children: [
-              const SizedBox(height: 100),
+              const SizedBox(height: 70),
               const Text(
                 'Sign in',
                 style: TextStyle(
@@ -62,7 +62,7 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
                   fontSize: 30,
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
               BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
                   return Form(
@@ -157,11 +157,20 @@ class _SignInScreenState extends State<SignInScreen> with Validator {
               ),
               const SizedBox(height: 30),
               AltButton(
-                onPressed: () {},
+                onPressed: () async {
+                  context.loaderOverlay.show(
+                      widget: const Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColor.oranage,
+                    ),
+                  ));
+                  await cubit.facebookSignIn();
+                  context.loaderOverlay.hide();
+                },
                 iconData: FontAwesomeIcons.facebook,
                 text: 'continue with facebook',
               ),
-              const Spacer(),
+              const SizedBox(height: 20),
               Center(
                 child: TextButton(
                   onPressed: () {

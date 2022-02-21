@@ -8,7 +8,7 @@ class SqlLocalDatasource implements ILocalDatasource {
     String path = join(await getDatabasesPath(), 'note_db');
     var noteDb = openDatabase(path, version: 1, onCreate: (db, version) {
       db.execute(
-          'CREATE TABLE note(noteId TEXT UNIQUE, userId TEXT, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT, audioPath TEXT)');
+          'CREATE TABLE note(noteId TEXT UNIQUE, userId TEXT, title TEXT, body TEXT, color INTEGER, noteType TEXT, date TEXT)');
     });
     return noteDb;
   }
@@ -38,7 +38,8 @@ class SqlLocalDatasource implements ILocalDatasource {
   @override
   Future<bool> saveNote(Note note) async {
     final db = await database;
-    var result = await db.insert('note', note.toMap());
+    var result = await db.insert('note', note.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
     return result != 0;
   }
 
@@ -79,6 +80,19 @@ class SqlLocalDatasource implements ILocalDatasource {
     List<Map<String, dynamic>> result =
         await db.query('note', where: 'userId = ?', whereArgs: [userId]);
     final notes = result.map((e) => Note.fromMap(e)).toList();
+    return notes;
+  }
+
+  @override
+  Future<List<Note>> searchNoteByUserId(String title, String userId) async {
+    final db = await database;
+    List<Note> notes = [];
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        'SELECT * FROM note  WHERE userId=? and title LIKE ?',
+        ['$userId, %$title%']);
+    notes = result.map((e) {
+      return Note.fromMap(e);
+    }).toList();
     return notes;
   }
 
