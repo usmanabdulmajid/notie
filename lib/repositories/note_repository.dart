@@ -16,8 +16,9 @@ class NoteRepository implements INoteRepository {
   @override
   Future<bool> add(Note note) async {
     if (sl<FirebaseAuthImp>().userId() != null) {
-      remoteDatabase.addNote(note);
+      final result = await remoteDatabase.addNote(note);
     }
+
     final result = await localDatasource.saveNote(note);
     return result;
   }

@@ -16,8 +16,8 @@ import 'package:notie/presentation/screens/launch_screen.dart';
 import 'package:notie/routes.dart';
 
 Future<void> main() async {
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.top]);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+  //     overlays: [SystemUiOverlay.top]);
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   await Firebase.initializeApp();
@@ -49,10 +49,18 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Notie',
         debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            child: child!,
+            value: const SystemUiOverlayStyle(
+                systemNavigationBarColor: AppColor.mainColor),
+          );
+        },
         theme: ThemeData(
-            scaffoldBackgroundColor: AppColor.mainColor,
-            primarySwatch: Colors.blue,
-            fontFamily: 'SupermercadoOne'),
+          scaffoldBackgroundColor: AppColor.mainColor,
+          primarySwatch: Colors.blue,
+          fontFamily: 'SupermercadoOne',
+        ),
         home: const LaunchScreen(),
         onGenerateRoute: Routes.generateRoute,
       ),

@@ -8,14 +8,20 @@ class FirestoreDatabase implements IRemoteDatabase {
   final CollectionReference collection;
   FirestoreDatabase(this.collection);
   @override
-  Future<void> addNote(Note note) async {
+  Future<bool> addNote(Note note) async {
+    bool result;
     try {
-      await collection
-          .doc(note.noteId)
-          .set({'userId': sl<FirebaseAuthImp>().userId(), ...note.toMap()});
+      result = await collection.doc(note.noteId).set({
+        'userId': sl<FirebaseAuthImp>().userId(),
+        ...note.toMap()
+      }).then((value) {
+        return true;
+      });
     } catch (e) {
       print(e);
+      result = false;
     }
+    return result;
   }
 
   @override
@@ -49,7 +55,7 @@ class FirestoreDatabase implements IRemoteDatabase {
     try {
       await collection.doc(note.noteId).update(note.toMap());
     } catch (e) {
-      print('shikai $e');
+      print('$e');
     }
   }
 }

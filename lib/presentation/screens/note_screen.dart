@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notie/common/utils/app_color.dart';
 import 'package:notie/cubit/auth_cubit.dart';
 import 'package:notie/cubit/notecubit_cubit.dart';
 import 'package:notie/presentation/widgets/app_snackbar.dart';
-import 'package:notie/presentation/widgets/audio_note_tile.dart';
 import 'package:notie/presentation/widgets/text_note_tile.dart';
 import 'package:notie/routes.dart';
-import 'package:notie/common/utils/enums.dart';
 import 'package:notie/common/utils/extensions.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -264,6 +260,7 @@ class _NoteScreenState extends State<NoteScreen> {
             ),
             floatingActionButton: context.openKeyboard
                 ? FloatingActionButton(
+                    heroTag: null,
                     backgroundColor: const Color(0XFF264653),
                     onPressed: () {
                       Navigator.pushNamed(context, Routes.composeNote);
